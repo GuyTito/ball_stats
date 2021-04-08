@@ -17,11 +17,11 @@ class CreateMatchesTable extends Migration
             $table->id();
             $table->foreignId('season_id')->constrained()->onDelete('cascade');
             $table->date('date_played');
-            $table->foreignId('team_id', 'team_A')->constrained()->onDelete('cascade');
+            $table->string('team_A');
             $table->unsignedInteger('team_A_score');
-            $table->foreignId('team_id', 'team_B')->constrained()->onDelete('cascade');
-            $table->unsignedInteger('team_B_score');;
-            $table->string('referee');
+            $table->unsignedInteger('team_B_score');
+            $table->string('team_B');
+            $table->string('referee')->nullable();
             $table->string('venue');
             $table->timestamps();
         });

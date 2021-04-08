@@ -34,15 +34,15 @@ class TeamController extends Controller
             'location' => 'required|max:255'
         ]);
 
-        dd([$request->name, $request->coach, $request->location, $request->user()->id]);
+        // dd([$request->name, $request->coach, $request->location, $request->user()->id]);
 
-        // $request->user()->teams()->create([
-        //     'name' => $request->name,
-        //     'coach' => $request->coach,
-        //     'location' => $request->location,
-        //     'user_id' => $request->user()->id
-        // ]);
+        $request->user()->teams()->create([
+            'name' => $request->name,
+            'coach' => $request->coach,
+            'location' => $request->location,
+            'user_id' => $request->user()->id
+        ]);
 
-        // return back();
+        return redirect()->route('admin');
     }
 }

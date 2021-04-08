@@ -33,14 +33,14 @@ class SeasonController extends Controller
             'end_date' => 'required|date|after:tomorrow'
         ]);
 
-        dd([$request->start_date, $request->end_date, $request->user()->id]);
+        //dd([$request->start_date, $request->end_date, $request->user()->id]);
 
-        // $request->user()->seasons()->create([
-        //     'start_date' => $request->start_date,
-        //     'end_date' => $request->end_date,
-        //     'user_id' => $request->user()->id
-        // ]);
+        $request->user()->seasons()->create([
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'user_id' => $request->user()->id
+        ]);
 
-        // return back(); 
+        return redirect()->route('admin');
     }
 }

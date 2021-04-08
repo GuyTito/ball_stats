@@ -40,9 +40,8 @@ class PlayerController extends Controller
             'birth_date' => 'date|before:yesterday',
         ]);
 
-        $team = $request->team;
-
         $team = Team::where('name', $request->team);
+        dd($team);
 
         // select id, name from team where name = $request->team
 
@@ -55,6 +54,6 @@ class PlayerController extends Controller
         //     'team_id' => $request->team()->id
         // ]);
 
-        // return back();
+        // return redirect()->route('admin');
     }
 }

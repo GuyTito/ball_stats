@@ -29,7 +29,7 @@
                             <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Team') }}</label>
 
                             <div class="col-md-6">
-                                <select name="teams[]" id="teams">
+                                <select class="form-control" name="teams[]" id="teams">
                                     @foreach ($teams as $team)
                                         <option value="{{ $team->id }}">{{ $team->name }}</option>
                                     @endforeach
@@ -44,12 +44,26 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="position" class="col-md-4 col-form-label text-md-right">{{ __('Player Position') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="position" type="text" class="form-control @error('position') is-invalid @enderror" name="position" value="{{ old('position') }}" required autofocus>
+
+                                @error('position')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="birth_day" class="col-md-4 col-form-label text-md-right">{{ __('Date of Birth') }}</label>
 
                             <div class="col-md-6">
-                                <input id="birth_day" type="date" class="form-control @error('birth_day') is-invalid @enderror" name="birth_day" value="{{ old('birth_day') }}" required autofocus>
+                                <input id="birth_date" type="date" class="form-control @error('birth_date') is-invalid @enderror" name="birth_date" value="{{ old('birth_date') }}" required>
 
-                                @error('birth_day')
+                                @error('birth_date')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -60,7 +74,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Create
+                                    Add
                                 </button>
                             </div>
                         </div>
