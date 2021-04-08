@@ -26,12 +26,16 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="coach" class="col-md-4 col-form-label text-md-right">{{ __('Team') }}</label>
+                            <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Team') }}</label>
 
                             <div class="col-md-6">
-                                <input id="coach" type="text" class="form-control @error('coach') is-invalid @enderror" name="coach" value="{{ old('coach') }}" required autofocus>
+                                <select name="teams[]" id="teams">
+                                    @foreach ($teams as $team)
+                                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                                    @endforeach
+                                </select>
 
-                                @error('coach')
+                                @error('team')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PlayerController extends Controller
 {
@@ -24,7 +25,10 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        return view('admin.player.create');
+        $id = Auth::id();
+        return view('admin.player.create', [
+            'teams' => Team::where('user_id', $id)->get()
+        ]);
     }
 
     public function store(Request $request)
