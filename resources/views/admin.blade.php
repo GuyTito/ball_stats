@@ -15,23 +15,23 @@
                     @endif
 
                     <div class="mb-2">
-                        <a href="{{ route('admin') }}">
-                            Save match
+                        <a href="{{ route('match.create') }}">
+                            {{ __('Save match') }}
                         </a>
                     </div>
                     <div class="mb-2">
-                        <a href="{{ route('admin') }}">
-                            Add football player
+                        <a href="{{ route('player.create') }}">
+                            {{ __('Add football player') }}
                         </a>
                     </div>
                     <div class="mb-2">
-                        <a href="{{ route('admin') }}">
-                            Add football team
+                        <a href="{{ route('team.create') }}">
+                            {{ __('Add football team') }}
                         </a>
                     </div>
                     <div>
-                        <a class="" href="{{ route('admin') }}">
-                            Create football season
+                        <a class="" href="{{ route('season.create') }}">
+                            {{ __('Create football season') }}
                         </a>
                     </div>
             </div>

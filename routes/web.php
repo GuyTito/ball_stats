@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MatchController;
+use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\SeasonController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +25,12 @@ Route::get('/', function(){
 Auth::routes();
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+Route::get('/admin/match/create', [MatchController::class, 'index'])->name('match.create');
+
+Route::get('/admin/player/create', [PlayerController::class, 'index'])->name('player.create');
+
+Route::get('/admin/team/create', [TeamController::class, 'index'])->name('team.create');
+
+Route::get('/admin/season/create', [SeasonController::class, 'index'])->name('season.create');
+Route::post('/admin/season', [SeasonController::class, 'store'])->name('season');
