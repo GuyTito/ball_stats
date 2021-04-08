@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Season::class);
     }
+
+    public function teams()
+    {
+        return $this->hasMany(Team::class);
+    }
 }

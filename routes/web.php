@@ -29,8 +29,10 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/admin/match/create', [MatchController::class, 'index'])->name('match.create');
 
 Route::get('/admin/player/create', [PlayerController::class, 'index'])->name('player.create');
+Route::post('/admin/player', [PlayerController::class, 'store'])->name('player');
 
 Route::get('/admin/team/create', [TeamController::class, 'index'])->name('team.create');
+Route::post('/admin/team', [TeamController::class, 'store'])->name('team');
 
 Route::get('/admin/season/create', [SeasonController::class, 'index'])->name('season.create');
 Route::post('/admin/season', [SeasonController::class, 'store'])->name('season');

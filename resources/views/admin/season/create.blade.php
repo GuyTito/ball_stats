@@ -17,7 +17,7 @@
                             <div class="col-md-6">
                                 <input id="start_date" type="date" class="form-control @error('start_date') is-invalid @enderror" name="start_date" value="{{ old('start_date') }}" required autofocus>
 
-                                @error('email')
+                                @error('start_date')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -31,7 +31,7 @@
                             <div class="col-md-6">
                                 <input id="end_date" type="date" class="form-control @error('end_date') is-invalid @enderror" name="end_date" value="{{ old('end_date') }}" required autofocus>
 
-                                @error('email')
+                                @error('end_date')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

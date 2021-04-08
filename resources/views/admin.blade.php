@@ -16,7 +16,7 @@
 
                     <div class="mb-2">
                         <a href="{{ route('match.create') }}">
-                            {{ __('Save match') }}
+                            {{ __('Save match event') }}
                         </a>
                     </div>
                     <div class="mb-2">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="mb-2">
                         <a href="{{ route('team.create') }}">
-                            {{ __('Add football team') }}
+                            {{ __('Create football team') }}
                         </a>
                     </div>
                     <div>
