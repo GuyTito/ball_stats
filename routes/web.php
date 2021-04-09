@@ -5,6 +5,7 @@ use App\Http\Controllers\MatchController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TeamController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,7 @@ Auth::routes();
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 Route::get('/admin/match/create', [MatchController::class, 'index'])->name('match.create');
+Route::post('/admin/match', [MatchController::class, 'store'])->name('match');
 
 Route::get('/admin/player/create', [PlayerController::class, 'index'])->name('player.create');
 Route::post('/admin/player', [PlayerController::class, 'store'])->name('player');
