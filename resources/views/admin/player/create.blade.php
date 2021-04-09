@@ -29,7 +29,7 @@
                             <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Team') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" name="teams[]" id="teams">
+                                <select class="form-control" name="team" id="team">
                                     @foreach ($teams as $team)
                                         <option value="{{ $team->id }}">{{ $team->name }}</option>
                                     @endforeach

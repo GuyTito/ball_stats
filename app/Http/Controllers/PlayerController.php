@@ -25,35 +25,30 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $id = Auth::id();
         return view('admin.player.create', [
-            'teams' => Team::where('user_id', $id)->get()
+            'teams' => Team::where('user_id', Auth::id())->get()
         ]);
     }
 
     public function store(Request $request)
     {
+
         $this->validate($request, [
             'name' => 'required|max:255',
-            'team' => 'required|max:255',
+            'team' => 'exists:teams,id',
             'position' => 'max:255',
             'birth_date' => 'date|before:yesterday',
         ]);
 
-        $team = Team::where('name', $request->team);
-        dd($team);
+        $team = Team::find($request->team);
 
-        // select id, name from team where name = $request->team
+        $team->players()->create([
+            'name' => $request->name,
+            'position' => $request->position,
+            'birth_date' => $request->birth_date,
+            'team_id' => $team->id
+        ]);
 
-        dd([ $request->name, $request->position, $request->birth_date, $team->name ]);
-
-        // $request->user()->players()->create([
-        //     'name' => $request->name,
-        //     'position' => $request->position,
-        //     'birth_date' => $request->birth_date,
-        //     'team_id' => $request->team()->id
-        // ]);
-
-        // return redirect()->route('admin');
+        return redirect()->route('admin');
     }
 }
