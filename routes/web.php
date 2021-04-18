@@ -34,6 +34,7 @@ Route::get('/admin/player/create', [PlayerController::class, 'index'])->name('pl
 Route::post('/admin/player', [PlayerController::class, 'store'])->name('player');
 
 Route::get('/admin/team/create', [TeamController::class, 'index'])->name('team.create');
+Route::get('/admin/team/getteams', [TeamController::class, 'getTeams'])->name('team.getTeams');
 Route::post('/admin/team', [TeamController::class, 'store'])->name('team');
 
 Route::get('/admin/season/create', [SeasonController::class, 'index'])->name('season.create');

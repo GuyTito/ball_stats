@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -44,5 +45,13 @@ class TeamController extends Controller
         ]);
 
         return redirect()->route('admin');
+    }
+
+    public function getTeams(Request $request){
+        $data = Team::select("name")
+                ->where("name","LIKE","%{$request->input('query')}%")
+                ->get();
+   
+        return response()->json($data);
     }
 }
