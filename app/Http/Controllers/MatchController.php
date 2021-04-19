@@ -52,6 +52,12 @@ class MatchController extends Controller
             'assists.*' => 'integer|min:1',
             'referee' => 'max:255',
             'venue' => 'max:255',
+        ],
+        [
+            'scorers.*.exists' => 'Player Name does not exist in Database',
+            'assistors.*.exists' => 'Player Name does not exist in Database',
+            'team_A.exists' => 'Team Name does not exist in Database',
+            'team_B.exists' => 'Team Name does not exist in Database',
         ]);
 
         dd($request->post());

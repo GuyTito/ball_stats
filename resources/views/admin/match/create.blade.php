@@ -3,21 +3,21 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('Save match event') }}</div>
+                    <div class="card-header text-center">{{ __('Save match event') }}</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('match') }}">
                             @csrf
 
-                            @if($errors->any())
+                            {{-- @if($errors->any())
 								@foreach ($errors->all() as $error)
 									<div class="alert alert-danger" role="alert">
 										<span>{{ $error }}</span>
 									</div>
 								@endforeach
-							@endif
+							@endif --}}
 
 							<div class="form-group row">
                                 <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Season') }}</label>
@@ -161,7 +161,7 @@
                                     <input id="venue" type="text" class="form-control @error('venue') is-invalid @enderror"
                                         name="venue" value="{{ old('venue') }}" required>
 
-									@error('team_A')
+									@error('venue')
                                         <span class="text-danger" role="alert">
                                             <small><strong>{{ $message }}</strong></small>
                                         </span>
@@ -208,7 +208,7 @@
 				<label class="col-md-4 col-form-label text-md-right"></label>
 
 				<div class="col-md-6">
-					<input type="text" class="typeahead" name="assistors[]" id="assistor_${id}" placeholder="Name" size="17">
+					<input type="text" class="typeahead" name="assistors[]" id="assistor_${id}" placeholder="Name" size="16">
 					<label class="mx-2">Assists: </label><input type="number" min="1" step="1" value="1" name="assists[]" id="assists_${id}" style="width: 3rem">
 					<button class="btn btn-sm btn-outline-primary mx-2" onclick="negAssist(); $('#assistorDiv-${id}').remove(); return false;">-</button>
 				<div>
