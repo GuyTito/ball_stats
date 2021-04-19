@@ -36,13 +36,27 @@ class MatchController extends Controller
     {
 
         $this->validate($request, [
-            'name' => 'required|max:255',
-            'team' => 'exists:teams,id',
-            'position' => 'max:255',
-            'birth_date' => 'date|before:yesterday',
+            'season' => 'required|exists:seasons,id',
+            'date_played' => 'required|date|before:tomorrow',
+            'team_A' => 'required|string|exists:teams,name',
+            'team_B' => 'required|string|exists:teams,name',
+            'team_A_score' => 'required|min:0',
+            'team_B_score' => 'required|min:0',
+            'scorers' => 'array',
+            'scorers.*' => 'string|distinct|exists:players,name',
+            'goals' => 'array',
+            'goals.*' => 'integer|min:1',
+            'assistors' => 'array',
+            'assistors.*' => 'string|distinct|exists:players,name',
+            'assists' => 'array',
+            'assists.*' => 'integer|min:1',
+            'referee' => 'max:255',
+            'venue' => 'max:255',
         ]);
 
-        $team = Team::find($request->team);
+        dd($request->post());
+
+        // $team = Team::find($request->team);
 
         // $team->players()->create([
         //     'name' => $request->name,
