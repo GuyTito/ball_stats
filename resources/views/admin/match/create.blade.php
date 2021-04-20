@@ -48,7 +48,7 @@
                                 <div class="col-md-6">
                                     <input id="date_played" type="date"
                                         class="form-control @error('date_played') is-invalid @enderror" name="date_played"
-                                        value="{{ old('date_played') }}" required>
+                                        value="{{ old('date_played', Carbon\Carbon::now()->toDateString()) }}" required>
 
                                     @error('date_played')
                                         <span class="invalid-feedback" role="alert">

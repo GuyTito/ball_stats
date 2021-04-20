@@ -39,7 +39,7 @@ class MatchController extends Controller
             'season' => 'required|exists:seasons,id',
             'date_played' => 'required|date|before:tomorrow',
             'team_A' => 'required|string|exists:teams,name',
-            'team_B' => 'required|string|exists:teams,name',
+            'team_B' => 'required|string|exists:teams,name|different:team_A',
             'team_A_score' => 'required|min:0',
             'team_B_score' => 'required|min:0',
             'scorers' => 'array',
@@ -54,11 +54,26 @@ class MatchController extends Controller
             'venue' => 'max:255',
         ],
         [
+            'scorers.*.distinct' => 'Goal scorer must appear once',
+            'scorers.*.string' => 'Player Name does not exist in Database',
             'scorers.*.exists' => 'Player Name does not exist in Database',
+            'assistors.*.distinct' => 'Assist provider must appear once',
+            'assistors.*.string' => 'Player Name does not exist in Database',
             'assistors.*.exists' => 'Player Name does not exist in Database',
             'team_A.exists' => 'Team Name does not exist in Database',
             'team_B.exists' => 'Team Name does not exist in Database',
         ]);
+
+        // compare sum of scores with sum of goals and that of assists
+        $goalsSum = collect($request->input('goals'))->sum();
+        $assistsSum = collect($request->input('assists'))->sum();
+        $scoreSum = $request->team_A_score + $request->team_A_score;
+        if ($goalsSum > $scoreSum) {
+            return back()->withErrors(['scorers.*' => 'Goals scored cannot be more than match score'])->withInput();
+        }
+        if ($assistsSum > $scoreSum) {
+            return back()->withErrors(['assistors.*' => 'Assists provided cannot be more than match score'])->withInput();
+        }
 
         dd($request->post());
 
