@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Player;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,5 +51,12 @@ class PlayerController extends Controller
         ]);
 
         return redirect()->route('admin');
+    }
+
+    public function getPlayers(){
+
+        $data = Player::select('name')->get();;
+   
+        return response()->json($data);
     }
 }

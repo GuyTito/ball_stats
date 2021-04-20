@@ -31,6 +31,7 @@ Route::get('/admin/match/create', [MatchController::class, 'index'])->name('matc
 Route::post('/admin/match', [MatchController::class, 'store'])->name('match');
 
 Route::get('/admin/player/create', [PlayerController::class, 'index'])->name('player.create');
+Route::get('/admin/team/getplayers', [PlayerController::class, 'getPlayers'])->name('player.getPlayers');
 Route::post('/admin/player', [PlayerController::class, 'store'])->name('player');
 
 Route::get('/admin/team/create', [TeamController::class, 'index'])->name('team.create');

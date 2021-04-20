@@ -63,7 +63,7 @@
                                     class="col-md-4 col-form-label text-md-right">{{ __('Home Team') }}</label>
 
                                 <div class="col-md-6">
-                                    <input type="text" name="team_A" id="team_A" required class="typeahead form-control" value="{{ old('team_A') }}" />
+                                    <input type="text" name="team_A" id="team_A" required class="typeahead get_teams form-control" value="{{ old('team_A') }}" />
 
                                     @error('team_A')
                                         <span class="text-danger" role="alert">
@@ -88,7 +88,7 @@
                                     class="col-md-4 col-form-label text-md-right">{{ __('Away Team') }}</label>
 
                                 <div class="col-md-6">
-                                    <input type="text" name="team_B" id="team_B" required class="typeahead form-control" value="{{ old('team_B') }}"/>
+                                    <input type="text" name="team_B" id="team_B" required class="typeahead get_teams form-control" value="{{ old('team_B') }}"/>
 
                                     @error('team_B')
                                         <span class="text-danger" role="alert">
@@ -111,7 +111,7 @@
                             <div class="form-group row" id="addScorerDiv">
                                 <label class="col-md-4 col-form-label text-md-right"></label>
                                 <div class="col-md-6" >
-                                    Goal Scorers: <button id="addScorer" class="btn btn-sm btn-outline-primary mx-2">+</button>
+                                    Goal Scorers: <button id="addScorerBtn" class="btn btn-sm btn-outline-primary mx-2">+</button>
 
 									@error('scorers.*')
 										<span class="text-danger" role="alert">
@@ -125,7 +125,7 @@
                             <div class="form-group row" id="addAssistorDiv">
                                 <label class="col-md-4 col-form-label text-md-right"></label>
                                 <div class="col-md-6" >
-                                    Assists: <button id="addAssistor" class="btn btn-sm btn-outline-primary mx-2">+</button>
+                                    Assists: <button id="addAssistorBtn" class="btn btn-sm btn-outline-primary mx-2">+</button>
 
 									@error('assistors.*')
 										<span class="text-danger" role="alert">
@@ -186,6 +186,16 @@
     </div>
 
     <script type="text/javascript">
+
+		function getTypeaheadData(element, path) {
+			$(element).typeahead({
+				source: function(query, process) {
+					return $.get(path, { query: query }, function(data) {
+						return process(data);
+					});
+				}
+			});
+		}
         
         function showScorerDiv() {
             let id = $("div[id|='scorerDiv']").length ? $("div[id|='scorerDiv']").first().data("id") : 0
@@ -194,7 +204,7 @@
 				<label class="col-md-4 col-form-label text-md-right"></label>
 
 				<div class="col-md-6">
-					<input type="text" class="typeahead" name="scorers[]" id="scorer_${id}" placeholder="Name" size="17">
+					<input type="text" class="typeahead get_players" name="scorers[]" id="scorer_${id}" placeholder="Name" size="17">
 					<label class="mx-2">Goals: </label><input type="number" min="1" step="1" value="1" name="goals[]" id="goals_${id}" style="width: 3rem">
 					<button class="btn btn-sm btn-outline-primary mx-2" onclick="negScorer(); $('#scorerDiv-${id}').remove(); return false;">-</button>
 				</div>
@@ -208,7 +218,7 @@
 				<label class="col-md-4 col-form-label text-md-right"></label>
 
 				<div class="col-md-6">
-					<input type="text" class="typeahead" name="assistors[]" id="assistor_${id}" placeholder="Name" size="16">
+					<input type="text" class="typeahead get_players" name="assistors[]" id="assistor_${id}" placeholder="Name" size="16">
 					<label class="mx-2">Assists: </label><input type="number" min="1" step="1" value="1" name="assists[]" id="assists_${id}" style="width: 3rem">
 					<button class="btn btn-sm btn-outline-primary mx-2" onclick="negAssist(); $('#assistorDiv-${id}').remove(); return false;">-</button>
 				<div>
@@ -231,7 +241,7 @@
 			console.log({score});
 		})
 
-		$('#addScorer').click(function(e) {
+		$('#addScorerBtn').click(function(e) {
 			e.preventDefault();
 			if (score > 0 && scorerCounter < score) {
 				scorerCounter++
@@ -241,9 +251,12 @@
 				alert("Number of goal scorers should be less or equal to team score");
 				return false;
 			}
+
+			var path = "{{ route('player.getPlayers') }}";
+			getTypeaheadData('.get_players', path)
 		});
 
-		$('#addAssistor').click(function(e) {
+		$('#addAssistorBtn').click(function(e) {
 			e.preventDefault();
 			if (score > 0 && assistorCounter < score) {
 				assistorCounter++
@@ -253,16 +266,15 @@
 				alert("Number of assist providers should be less or equal to team score");
 				return false;
 			}
+
+			var path = "{{ route('player.getPlayers') }}";
+			getTypeaheadData('.get_players', path)
 		});
 
 		var path = "{{ route('team.getTeams') }}";
-		$('.typeahead').typeahead({
-			source: function(query, process) {
-				return $.get(path, { query: query }, function(data) {
-					return process(data);
-				});
-			}
-		});
+		getTypeaheadData('.get_teams', path)
+
+		
 
     </script>
 
