@@ -19,6 +19,12 @@
 								@endforeach
 							@endif --}}
 
+                            @error('notInserted')
+                                <div class="alert alert-danger" role="alert">
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+
 							<div class="form-group row">
                                 <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Season') }}</label>
 

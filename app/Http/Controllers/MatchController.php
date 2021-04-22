@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assists;
+use App\Models\Goals;
+use App\Models\MatchEvent;
+use App\Models\Player;
 use App\Models\Season;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MatchController extends Controller
 {
@@ -35,7 +40,7 @@ class MatchController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
+        $validatedData = $request->validate( [
             'season' => 'required|exists:seasons,id',
             'date_played' => 'required|date|before:tomorrow',
             'team_A' => 'required|string|exists:teams,name',
@@ -75,17 +80,38 @@ class MatchController extends Controller
             return back()->withErrors(['assistors.*' => 'Assists provided cannot be more than match score'])->withInput();
         }
 
-        dd($request->post());
+        DB::beginTransaction();
+        try{
+            $justInserted = MatchEvent::create($validatedData);
 
-        // $team = Team::find($request->team);
+            $countScorers = collect($request->scorers)->count();
+            for ($x = 0; $x < $countScorers; $x++)
+            {
+                Goals::create([
+                    'player_id' => Player::where('name', $request->scorers[$x])->first()->id,
+                    'goals' => $request->goals[$x],
+                    'match_id' => $justInserted->id
+                ]);
+            }
 
-        // $team->players()->create([
-        //     'name' => $request->name,
-        //     'position' => $request->position,
-        //     'birth_date' => $request->birth_date,
-        //     'team_id' => $team->id
-        // ]);
+            $countAssistors = collect($request->assistors)->count();
+            for ($x = 0; $x < $countAssistors; $x++)
+            {
+                Assists::create([
+                    'player_id' => Player::where('name', $request->assistors[$x])->first()->id,
+                    'goals' => $request->assists[$x],
+                    'match_id' => $justInserted->id
+                ]);
+            }
 
-        return redirect()->route('admin');
+            DB::commit();
+
+            return redirect()->route('admin');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors(['notInserted' => $e->getMessage()])->withInput();
+        }
     }
 }
