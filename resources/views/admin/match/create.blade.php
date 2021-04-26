@@ -19,17 +19,17 @@
 								@endforeach
 							@endif --}}
 
-                            @error('notInserted')
+                            {{-- @error('notInserted')
                                 <div class="alert alert-danger" role="alert">
                                     <span>{{ $message }}</span>
                                 </div>
-                            @enderror
+                            @enderror --}}
 
 							<div class="form-group row">
                                 <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Season') }}</label>
 
                                 <div class="col-md-6">
-                                    <select class="form-control" name="season" id="season" autofocus>
+                                    <select class="form-control" name="season_id" id="season_id" autofocus>
 										{{-- <option >Select Season</option> --}}
                                         @foreach ($seasons as $season)
                                             <option value="{{ $season->id }}">
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <label for="team"
                                     class="col-md-4 col-form-label text-md-right">{{ __('Home Team') }}</label>
 
@@ -77,19 +77,38 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group row">
-                                <label for="team_A_score"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Home Team Score') }}</label>
-
+                                <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Home Team') }}</label>
+    
                                 <div class="col-md-6">
-                                    <input id="team_A_score" type="number" min="0" step="1" pattern="\d+" value="{{ old('team_A_score', 0) }}"
-                                        class="form-control score" name="team_A_score">
+                                    <select class="form-control" name="home_team_id" id="home_team_id">
+                                        <option value="">Select Team...</option>
+                                        @foreach ($teams as $team)
+                                            <option value="{{ $team->id }}" @if (old('home_team_id') == $team->id) {{ 'selected' }} @endif>{{ $team->name }}</option>
+                                        @endforeach
+                                    </select>
+    
+                                    @error('home_team_id')
+                                        <span class="text-danger" role="alert">
+                                            <small><strong>{{ $message }}</strong></small>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="form-group row">
+                                <label for="home_team_score"
+                                    class="col-md-4 col-form-label text-md-right">{{ __('Home Team Score') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="home_team_score" type="number" min="0" step="1" pattern="\d+" value="{{ old('home_team_score', 0) }}"
+                                        class="form-control score" name="home_team_score">
+                                </div>
+                            </div>
+
+                            {{-- <div class="form-group row">
                                 <label for="team"
                                     class="col-md-4 col-form-label text-md-right">{{ __('Away Team') }}</label>
 
@@ -102,15 +121,34 @@
                                         </span>
                                     @enderror
                                 </div>
+                            </div> --}}
+
+                            <div class="form-group row">
+                                <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Away Team') }}</label>
+    
+                                <div class="col-md-6">
+                                    <select class="form-control" name="away_team_id" id="away_team_id">
+                                        <option value="">Select Team...</option>
+                                        @foreach ($teams as $team)
+                                            <option value="{{ $team->id }}" @if (old('away_team_id') == $team->id) {{ 'selected' }} @endif>{{ $team->name }}</option>
+                                        @endforeach
+                                    </select>
+    
+                                    @error('away_team_id')
+                                        <span class="text-danger" role="alert">
+                                            <small><strong>{{ $message }}</strong></small>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="team_B_score"
+                                <label for="away_team_score"
                                     class="col-md-4 col-form-label text-md-right">{{ __('Away Team Score') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="team_B_score" type="number" min="0" step="1" pattern="\d+" value="{{ old('team_B_score', 0) }}"
-                                        class="form-control score" name="team_B_score">
+                                    <input id="away_team_score" type="number" min="0" step="1" pattern="\d+" value="{{ old('away_team_score', 0) }}"
+                                        class="form-control score" name="away_team_score">
                                 </div>
                             </div>
 
@@ -241,9 +279,9 @@
             assistorCounter--;
         }
 
-		var score = parseInt($("#team_A_score").val()) + parseInt($("#team_B_score").val())
+		var score = parseInt($("#home_team_score").val()) + parseInt($("#away_team_score").val())
 		$(".score").change(function() {
-			score = parseInt($("#team_A_score").val()) + parseInt($("#team_B_score").val())
+			score = parseInt($("#home_team_score").val()) + parseInt($("#away_team_score").val())
 			console.log({score});
 		})
 

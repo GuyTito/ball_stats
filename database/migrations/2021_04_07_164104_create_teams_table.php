@@ -22,6 +22,7 @@ class CreateTeamsTable extends Migration
             $table->timestamps();
 
             $table->unique( ['name', 'user_id']); 
+            $table->unique( ['coach', 'user_id']); 
         });
     }
 

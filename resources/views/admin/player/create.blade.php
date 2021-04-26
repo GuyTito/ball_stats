@@ -29,15 +29,16 @@
                             <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Team') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" name="team" id="team">
+                                <select class="form-control" name="team_id" id="team_id">
+                                    <option value="a">Select Team...</option>
                                     @foreach ($teams as $team)
                                         <option value="{{ $team->id }}">{{ $team->name }}</option>
                                     @endforeach
                                 </select>
 
-                                @error('team')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                @error('team_id')
+                                    <span class="text-danger" role="alert">
+                                        <small><strong>{{ $message }}</strong></small>
                                     </span>
                                 @enderror
                             </div>
@@ -61,7 +62,7 @@
                             <label for="birth_day" class="col-md-4 col-form-label text-md-right">{{ __('Date of Birth') }}</label>
 
                             <div class="col-md-6">
-                                <input id="birth_date" type="date" class="form-control @error('birth_date') is-invalid @enderror" name="birth_date" value="{{ old('birth_date') }}" required>
+                                <input id="birth_date" type="date" class="form-control @error('birth_date') is-invalid @enderror" name="birth_date" value="{{ old('birth_date') }}">
 
                                 @error('birth_date')
                                     <span class="invalid-feedback" role="alert">

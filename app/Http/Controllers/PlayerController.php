@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Player;
 use App\Models\Team;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PlayerController extends Controller
 {
@@ -27,35 +25,37 @@ class PlayerController extends Controller
     public function index()
     {
         return view('admin.player.create', [
-            'teams' => Team::where('user_id', Auth::id())->get()
+            'teams' => Team::where('user_id', auth()->id())->get()
         ]);
     }
 
-    public function store(Request $request)
+    private function validatePlayer()
     {
-
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'team' => 'exists:teams,id',
+        return request()->validate([
+            'name' => 'required|max:255|unique:players,name,NULL,id,user_id,'.auth()->id(),
+            'team_id' => 'required|exists:teams,id',
             'position' => 'max:255',
             'birth_date' => 'date|before:yesterday',
+        ],
+        [
+            'team_id.exists' => 'Select a team'
         ]);
+            
+        
+    }
 
-        $team = Team::find($request->team);
-
-        $team->players()->create([
-            'name' => $request->name,
-            'position' => $request->position,
-            'birth_date' => $request->birth_date,
-            'team_id' => $team->id
-        ]);
+    public function store()
+    {
+        // dd($this->validatePlayer());
+        request()->user()->players()->create($this->validatePlayer());
 
         return redirect()->route('admin');
+
     }
 
     public function getPlayers(){
 
-        $data = Player::select('name')->get();;
+        $data = Player::select('name')->where('user_id', auth()->id())->get();;
    
         return response()->json($data);
     }

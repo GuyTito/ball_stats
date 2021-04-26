@@ -15,10 +15,13 @@ class CreateGoalsTable extends Migration
     {
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('player_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('player_id');
             $table->unsignedInteger('goals');
-            $table->foreignId('match_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('match_id');
             $table->timestamps();
+
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->foreign('match_id')->references('id')->on('match_events')->onDelete('cascade');
         });
     }
 

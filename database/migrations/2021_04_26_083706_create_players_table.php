@@ -18,8 +18,16 @@ class CreatePlayersTable extends Migration
             $table->string('name');
             $table->string('position')->nullable();
             $table->date('birth_date')->nullable();
-            $table->foreignId('team_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('team_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            
+            $table->unique( ['name', 'user_id']);
         });
     }
 

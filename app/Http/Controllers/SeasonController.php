@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
 class SeasonController extends Controller
 {
@@ -25,21 +24,20 @@ class SeasonController extends Controller
     {
         return view('admin.season.create');
     }
-    
-    public function store(Request $request)
+
+    private function validateSeason()
     {
-        $this->validate($request, [
+        return request()->validate([
             'start_date' => 'required|date|after:yesterday',
             'end_date' => 'required|date|after:tomorrow'
         ]);
+    }
+    
+    public function store()
+    {
+        //dd([request()->start_date, request()->end_date, request()->user()->id]);
 
-        //dd([$request->start_date, $request->end_date, $request->user()->id]);
-
-        $request->user()->seasons()->create([
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'user_id' => $request->user()->id
-        ]);
+        request()->user()->seasons()->create($this->validateSeason());
 
         return redirect()->route('admin');
     }

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\MatchController;
+use App\Http\Controllers\MatchEventController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TeamController;
@@ -27,8 +27,8 @@ Auth::routes();
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
-Route::get('/admin/match/create', [MatchController::class, 'index'])->name('match.create');
-Route::post('/admin/match', [MatchController::class, 'store'])->name('match');
+Route::get('/admin/match/create', [MatchEventController::class, 'index'])->name('match.create');
+Route::post('/admin/match', [MatchEventController::class, 'store'])->name('match');
 
 Route::get('/admin/player/create', [PlayerController::class, 'index'])->name('player.create');
 Route::get('/admin/team/getplayers', [PlayerController::class, 'getPlayers'])->name('player.getPlayers');

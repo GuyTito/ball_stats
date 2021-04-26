@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
-use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
@@ -27,31 +26,26 @@ class TeamController extends Controller
         return view('admin.team.create');
     }
 
-    public function store(Request $request)
+    private function validateTeam()
     {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'coach' => 'required|max:255',
+        return request()->validate([
+            'name' => 'required|max:255|unique:teams,name,NULL,id,user_id,'.auth()->id(),
+            'coach' => 'required|max:255|unique:teams,coach,NULL,id,user_id,'.auth()->id(),
             'location' => 'required|max:255'
         ]);
+    }
+
+    public function store()
+    {
 
         // dd([$request->name, $request->coach, $request->location, $request->user()->id]);
 
-        $request->user()->teams()->create([
-            'name' => $request->name,
-            'coach' => $request->coach,
-            'location' => $request->location,
-            'user_id' => $request->user()->id
-        ]);
+        request()->user()->teams()->create($this->validateTeam());
 
         return redirect()->route('admin');
     }
 
     public function getTeams(){
-        // $data = Team::select("name")
-        //     ->where("name","LIKE","%{$request->input('query')}%")
-        //     ->get();
-
         $data = Team::select('name')->get();;
    
         return response()->json($data);

@@ -10,12 +10,12 @@ class MatchEvent extends Model
     use HasFactory;
 
     protected $fillable = [
-        'season',
+        'season_id',
         'date_played',
-        'team_A',
-        'team_A_score',
-        'team_B',
-        'team_B_score',
+        'home_team_id',
+        'home_team_score',
+        'away_team_id',
+        'away_team_score',
         'referee',
         'venue'
     ];

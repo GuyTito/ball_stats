@@ -15,7 +15,7 @@
                             <label for="start_date" class="col-md-4 col-form-label text-md-right">{{ __('Start Date') }}</label>
 
                             <div class="col-md-6">
-                                <input id="start_date" type="date" class="form-control @error('start_date') is-invalid @enderror" name="start_date" value="{{ old('start_date') }}" required autofocus>
+                                <input id="start_date" type="date" class="form-control @error('start_date') is-invalid @enderror" name="start_date" value="{{ old('date_played', Carbon\Carbon::now()->toDateString()) }}" required autofocus>
 
                                 @error('start_date')
                                     <span class="invalid-feedback" role="alert">
