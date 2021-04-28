@@ -15,16 +15,16 @@ class CreatePlayersTable extends Migration
     {
         Schema::create('players', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('position')->nullable();
             $table->date('birth_date')->nullable();
             $table->unsignedBigInteger('team_id');
-            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
 
             
             $table->unique( ['name', 'user_id']);

@@ -55,8 +55,8 @@ class PlayerController extends Controller
 
     public function getPlayers(){
 
-        $data = Player::select('name')->where('user_id', auth()->id())->get();;
+        $players = request()->user()->players()->select('name')->get();
    
-        return response()->json($data);
+        return response()->json($players);
     }
 }

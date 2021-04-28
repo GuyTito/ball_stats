@@ -18,4 +18,9 @@ class Season extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function match_events()
+    {
+        return $this->hasMany(MatchEvent::class);
+    }
 }

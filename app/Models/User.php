@@ -59,4 +59,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Player::class);
     }
+
+    public function match_events()
+    {
+        return $this->hasMany(MatchEvent::class);
+    }
+
+    public function goals()
+    {
+        return $this->hasMany(Goals::class);
+    }
+
+    public function assists()
+    {
+        return $this->hasMany(Assists::class);
+    }
 }

@@ -15,10 +15,10 @@ class CreateTeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('location');
             $table->string('coach');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
 
             $table->unique( ['name', 'user_id']); 

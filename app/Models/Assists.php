@@ -14,4 +14,19 @@ class Assists extends Model
         'match_id',
         'assists'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function player()
+    {
+        return $this->belongsTo(Player::class);
+    }
+
+    public function match_event()
+    {
+        return $this->belongsTo(MatchEvent::class);
+    }
 }

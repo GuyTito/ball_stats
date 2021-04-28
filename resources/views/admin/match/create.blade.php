@@ -30,7 +30,6 @@
 
                                 <div class="col-md-6">
                                     <select class="form-control" name="season_id" id="season_id" autofocus>
-										{{-- <option >Select Season</option> --}}
                                         @foreach ($seasons as $season)
                                             <option value="{{ $season->id }}">
                                                 {{ Carbon\Carbon::parse($season->start_date)->toFormattedDateString() }} -
@@ -64,21 +63,6 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="form-group row">
-                                <label for="team"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Home Team') }}</label>
-
-                                <div class="col-md-6">
-                                    <input type="text" name="team_A" id="team_A" required class="typeahead get_teams form-control" value="{{ old('team_A') }}" />
-
-                                    @error('team_A')
-                                        <span class="text-danger" role="alert">
-                                            <small><strong>{{ $message }}</strong></small>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div> --}}
-
                             <div class="form-group row">
                                 <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Home Team') }}</label>
     
@@ -107,21 +91,6 @@
                                         class="form-control score" name="home_team_score">
                                 </div>
                             </div>
-
-                            {{-- <div class="form-group row">
-                                <label for="team"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Away Team') }}</label>
-
-                                <div class="col-md-6">
-                                    <input type="text" name="team_B" id="team_B" required class="typeahead get_teams form-control" value="{{ old('team_B') }}"/>
-
-                                    @error('team_B')
-                                        <span class="text-danger" role="alert">
-                                            <small><strong>{{ $message }}</strong></small>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div> --}}
 
                             <div class="form-group row">
                                 <label for="team" class="col-md-4 col-form-label text-md-right">{{ __('Away Team') }}</label>

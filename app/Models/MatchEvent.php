@@ -19,4 +19,24 @@ class MatchEvent extends Model
         'referee',
         'venue'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function season()
+    {
+        return $this->belongsTo(Season::class);
+    }
+
+    public function goals()
+    {
+        return $this->hasMany(Goals::class);
+    }
+
+    public function assists()
+    {
+        return $this->hasMany(Assists::class);
+    }
 }

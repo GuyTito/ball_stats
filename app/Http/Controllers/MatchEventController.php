@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Assists;
-use App\Models\Goals;
-use App\Models\MatchEvent;
 use App\Models\Player;
 use App\Models\Season;
 use App\Models\Team;
+use Carbon\Carbon;
 
 class MatchEventController extends Controller
 {
@@ -33,7 +31,7 @@ class MatchEventController extends Controller
             'teams' => Team::where('user_id', auth()->id())->get()
         ]);
     }
-
+    
     private function validateMatch()
     {
         return request()->validate( [
@@ -67,12 +65,22 @@ class MatchEventController extends Controller
         ]);
     }
 
+    private function checkMatchDateBetweenSeasonDates()
+    {
+        $season = Season::find( request()->season_id );
+        $season_start = Carbon::createFromDate( $season['start_date'] );
+        $match_date = Carbon::createFromDate(request()->date_played);
+        if ( $match_date->lt($season_start) ) {
+            return back()->withErrors(['date_played' => 'Match date must be between the start and end of the season'])->withInput();
+        }
+    }
+
     private function validateScoreAssistSum()
     {
         // compare sum of scores with sum of goals and that of assists
         $goalsSum = collect(request()->input('goals'))->sum();
         $assistsSum = collect(request()->input('assists'))->sum();
-        $scoreSum = request()->home_team_score + request()->home_team_score;
+        $scoreSum = request()->home_team_score + request()->away_team_score;
         if ($goalsSum > $scoreSum) {
             return back()->withErrors(['scorers.*' => 'Goals scored cannot be more than match score'])->withInput();
         }
@@ -85,7 +93,7 @@ class MatchEventController extends Controller
     {
         for ($i = 0; $i < $counter; $i++)
         {
-            $model::create([
+            $model->create([
                 'player_id' => Player::where('name', $request_1[$i])->first()->id,
                 $field => $request_2[$i],
                 'match_id' => $last_id->id
@@ -95,14 +103,19 @@ class MatchEventController extends Controller
 
     public function store()
     {
-        $this->validateScoreAssistSum();
-        $justInserted = MatchEvent::create($this->validateMatch());
+        $cmdbsd = $this->checkMatchDateBetweenSeasonDates();
+        if ($cmdbsd) return $cmdbsd;
+
+        $vsa = $this->validateScoreAssistSum();
+        if ($vsa) return $vsa; 
+
+        $justInserted = request()->user()->match_events()->create($this->validateMatch());
 
         $countScorers = collect(request()->scorers)->count();
-        $this->storeGoalsAssists($countScorers, Goals::class, request()->scorers, request()->goals, 'goals', $justInserted);
+        $this->storeGoalsAssists($countScorers, request()->user()->goals(), request()->scorers, request()->goals, 'goals', $justInserted);
 
         $countAssistors = collect(request()->assistors)->count();
-        $this->storeGoalsAssists($countAssistors, Assists::class, request()->assistors, request()->assists, 'assists', $justInserted);
+        $this->storeGoalsAssists($countAssistors, request()->user()->assists(), request()->assistors, request()->assists, 'assists', $justInserted);
 
         return redirect()->route('admin');
     }
