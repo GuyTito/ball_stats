@@ -94,7 +94,7 @@ class MatchEventController extends Controller
         for ($i = 0; $i < $counter; $i++)
         {
             $model->create([
-                'player_id' => Player::where('name', $request_1[$i])->first()->id,
+                'player_id' => request()->user()->players()->where('name', $request_1[$i])->first()->id,
                 $field => $request_2[$i],
                 'match_id' => $last_id->id
             ]);

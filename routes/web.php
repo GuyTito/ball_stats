@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MatchEventController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
+use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -19,9 +20,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function(){
-    return view('home');
-})->name('home');
+// Route::get('/', function(){
+//     return view('home');
+// })->name('home');
+Route::get('/', [LeagueController::class, 'index'])->name('home');
+
+Route::get('/league/{user:name}', [LeagueController::class, 'show'])->name('league');
 
 Auth::routes();
 
