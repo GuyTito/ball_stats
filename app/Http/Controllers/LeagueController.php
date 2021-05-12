@@ -25,21 +25,24 @@ class LeagueController extends Controller
      */
     public function show(User $user)
     {
-        if( request()->has('season') ) {
+        if( request()->has('season') && $user->seasons()->find(request()->query('season')) ) {
             $season_id = request()->query('season');
         } else {
             $season_id = $user->seasons()->latest()->first()->id;
         }
-
-        $matches =  $user->match_events()->where('season_id', $season_id)->get();
+        
+        $seasons  = $user->seasons()->latest()->get();
+        $current_season = $user->seasons()->find($season_id);
+        
+        $matches =  $user->match_events()->latest()->where('season_id', $season_id)->get();
         // $goals =  $user->goals()->where('season_id', $season_id)->get();
         // $assists =  $user->assists()->where('season_id', $season_id)->get();
-
-        $seasons  = $user->seasons()->latest()->get();
-
+        // dd($matches);
+        
         return view('league', [
             'league' => $user,
             'seasons' => $seasons,
+            'current_season' => $current_season,
             'matches' => $matches
         ]);
     }
