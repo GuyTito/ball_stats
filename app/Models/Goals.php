@@ -11,6 +11,7 @@ class Goals extends Model
 
     protected $fillable = [
         'player_id',
+        'season_id',
         'match_id',
         'goals'
     ];
@@ -28,5 +29,10 @@ class Goals extends Model
     public function match_event()
     {
         return $this->belongsTo(MatchEvent::class);
+    }
+
+    public function season()
+    {
+        return $this->belongsTo(Season::class);
     }
 }

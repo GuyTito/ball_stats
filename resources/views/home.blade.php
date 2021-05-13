@@ -16,7 +16,7 @@
                         @endforeach
 
                     @else
-                        <p>No posts</p>
+                        <p>No leagues</p>
                     @endif
                 </div>
             </div>

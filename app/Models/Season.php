@@ -23,4 +23,14 @@ class Season extends Model
     {
         return $this->hasMany(MatchEvent::class);
     }
+
+    public function goals()
+    {
+        return $this->hasMany(Goals::class);
+    }
+
+    public function assists()
+    {
+        return $this->hasMany(Assists::class);
+    }
 }

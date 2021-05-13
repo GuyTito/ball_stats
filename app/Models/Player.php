@@ -26,5 +26,14 @@ class Player extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function goals()
+    {
+        return $this->hasMany(Goals::class);
+    }
+
+    public function assists()
+    {
+        return $this->hasMany(Assists::class);
+    }
 
 }
