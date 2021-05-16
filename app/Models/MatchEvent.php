@@ -16,6 +16,8 @@ class MatchEvent extends Model
         'home_team_score',
         'away_team_id',
         'away_team_score',
+        'win_team_id',
+        'loss_team_id',
         'referee',
         'venue'
     ];

@@ -102,15 +102,37 @@ class MatchEventController extends Controller
         }
     }
 
+    private function addWinLossTeam($results)
+    {
+        if (request()->home_team_score > request()->away_team_score) {
+            $win_team_id = request()->home_team_id;
+            $loss_team_id = request()->away_team_id;
+        } elseif (request()->away_team_score > request()->home_team_score) {
+            $win_team_id = request()->away_team_id;
+            $loss_team_id = request()->home_team_id;
+        } else {
+            $win_team_id = null;
+            $loss_team_id = null;
+        }
+        
+        $win_loss_team = ['win_team_id' => $win_team_id, 'loss_team_id' => $loss_team_id];
+
+        $results = array_merge($results, $win_loss_team);
+
+        return $results;
+    }
+
     public function store()
     {
         $cmdbsd = $this->checkMatchDateBetweenSeasonDates();
         if ($cmdbsd) return $cmdbsd;
 
         $vsa = $this->validateScoreAssistSum();
-        if ($vsa) return $vsa; 
+        if ($vsa) return $vsa;
 
-        $justInserted = request()->user()->match_events()->create($this->validateMatch());
+        $match_results = $this->addWinLossTeam($this->validateMatch());
+
+        $justInserted = request()->user()->match_events()->create($match_results);
 
         $countScorers = collect(request()->scorers)->count();
         $this->storeGoalsAssists($countScorers, request()->user()->goals(), request()->scorers, request()->goals, 'goals', $justInserted);

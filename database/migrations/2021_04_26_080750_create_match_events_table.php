@@ -22,6 +22,8 @@ class CreateMatchEventsTable extends Migration
             $table->unsignedInteger('home_team_score');
             $table->unsignedInteger('away_team_score');
             $table->unsignedBigInteger('away_team_id');
+            $table->unsignedBigInteger('win_team_id')->nullable();
+            $table->unsignedBigInteger('loss_team_id')->nullable();
             $table->string('referee')->nullable();
             $table->string('venue');
             $table->timestamps();

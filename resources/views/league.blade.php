@@ -26,6 +26,17 @@
 
                 <div class="card-body">
                     <div>
+                        <h3>standings</h3>
+                        <strong>team</strong> - <strong>MP</strong> - <strong>W</strong> - <strong>L</strong> - <strong>D</strong> - <strong>GS/GC</strong> - <strong>Pts</strong>
+                        
+                        @foreach ($standings as $team)
+                            <div>
+                                {{$team['name']}} - {{$team['mp']}} - {{$team['w']}} - {{$team['l']}} - {{$team['d']}} - {{$team['gs']}}/{{$team['gc']}} - <strong>{{$team['pts']}}</strong>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div>
                         <h3>matches</h3>
                         @foreach ($matches as $match)
                             <div class="mb-2">
@@ -40,8 +51,7 @@
                         <h3>goals</h3>
                         @foreach ($goals as $goal)
                             <div>
-                                {{$goal->player->name}} - {{$goal->player->team->name}} - 
-                                {{$goal->player->goals->whereIn('season_id', $current_season->id)->sum('goals')}}
+                                {{$goal['name']}} - {{$goal['team']}} - {{$goal['goals']}}
                             </div>
                         @endforeach
                     </div>
@@ -50,13 +60,10 @@
                         <h3>assists</h3>
                         @foreach ($assists as $assist)
                             <div>
-                                {{$assist->player->name}} - {{$assist->player->team->name}} - 
-                                {{$assist->player->assists->whereIn('season_id', $current_season->id)->sum('assists')}}
+                                {{$assist['name']}} - {{$assist['team']}} - {{$assist['assists']}}
                             </div>
                         @endforeach
                     </div>
-
-                    <div>standings</div>
                 </div>
             </div>
         </div>
