@@ -25,7 +25,7 @@ class LeagueController extends Controller
             $relation = $model == 'goals' ? $item->player->goals : $item->player->assists;
             
             $processed-> push(collect([
-                'name' => $item->player->name,
+                'player' => $item->player,
                 'team' => $item->player->team->name,
                 $model => $relation->whereIn('season_id', $season->id)->sum($model),
             ]));
@@ -46,7 +46,7 @@ class LeagueController extends Controller
             $goals_conceded = $team->home_matches()->where('season_id', $season_id)->sum('away_team_score') + $team->away_matches()->where('season_id', $season_id)->sum('home_team_score');
 
             $standings-> push(collect([
-                'name' => $team->name,
+                'team' => $team,
                 'mp' => $matches_played,
                 'w' => $wins,
                 'l' => $losses,
@@ -62,6 +62,10 @@ class LeagueController extends Controller
 
     public function show(User $user)
     {
+        if (!$user->seasons()->first()) {
+            return view('error', ['message' => 'No seasons available. Contact league admin.']);
+        }
+        
         if( request()->has('season') && $user->seasons()->find(request()->query('season')) ) {
             $season_id = (int)request()->query('season');
         } else {
@@ -93,11 +97,6 @@ class LeagueController extends Controller
         ]);
     }
     
-
-    
-    public function matches()
-    {
-        return view('matches');    }
 
     /**
      * Show the form for editing the specified resource.

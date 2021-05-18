@@ -8,16 +8,13 @@
                 <div class="card-header">{{ __('Leagues') }}</div>
 
                 <div class="card-body">
-                    @if ($leagues->count())
-                        @foreach ($leagues as $league)
-                            <div>
-                                <a href=" {{ route('league', $league) }} "> {{ $league->name }} </a>
-                            </div>
-                        @endforeach
-
-                    @else
-                        <p>No leagues</p>
-                    @endif
+                    @forelse ($leagues as $league)
+                        <div>
+                            <a href="{{ route('league', $league) }}"> {{ $league->name }} </a>
+                        </div>
+                    @empty
+                        <p>No leagues. Create a league.</p>
+                    @endforelse
                 </div>
             </div>
         </div>

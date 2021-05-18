@@ -27,42 +27,60 @@
                 <div class="card-body">
                     <div>
                         <h3>standings</h3>
-                        <strong>team</strong> - <strong>MP</strong> - <strong>W</strong> - <strong>L</strong> - <strong>D</strong> - <strong>GS/GC</strong> - <strong>Pts</strong>
+                        <strong>team</strong> - <strong>MP</strong> - <strong>W</strong> - <strong>D</strong> - <strong>L</strong> - <strong>GS/GC</strong> - <strong>Pts</strong>
                         
-                        @foreach ($standings as $team)
+                        @forelse ($standings as $team)
                             <div>
-                                {{$team['name']}} - {{$team['mp']}} - {{$team['w']}} - {{$team['l']}} - {{$team['d']}} - {{$team['gs']}}/{{$team['gc']}} - <strong>{{$team['pts']}}</strong>
+                                <a href="{{ route('team', $team['team']) }}">{{$team['team']->name}}</a> - 
+                                {{$team['mp']}} - 
+                                {{$team['w']}} - 
+                                {{$team['d']}} - 
+                                {{$team['l']}} - 
+                                {{$team['gs']}}/{{$team['gc']}} - 
+                                <strong>{{$team['pts']}}</strong>
                             </div>
-                        @endforeach
+                        @empty
+                            <p>No match event recorded.</p> 
+                        @endforelse
                     </div>
 
                     <div>
                         <h3>matches</h3>
-                        @foreach ($matches as $match)
+                        @forelse  ($matches as $match)
                             <div class="mb-2">
                                 <div>{{ Carbon\Carbon::parse($match->date_played)->toFormattedDateString() }}</div>
                                 {{$match->home_team->name}} {{$match->home_team_score}} - 
                                 {{$match->away_team_score}} {{$match->away_team->name}}
                             </div>
-                        @endforeach
+                        @empty
+                           <p>No match event recorded.</p> 
+                        @endforelse
                     </div>
 
                     <div>
                         <h3>goals</h3>
-                        @foreach ($goals as $goal)
+                        @forelse ($goals as $player)
                             <div>
-                                {{$goal['name']}} - {{$goal['team']}} - {{$goal['goals']}}
+                                <a href="{{ route('player', $player['player']) }}">{{$player['player']->name}}</a> - 
+                                {{$player['team']}} - 
+                                {{$player['goals']}}
                             </div>
-                        @endforeach
+                        @empty
+                            <p>No goals recorded.</p>
+                        @endforelse
                     </div>
 
                     <div>
                         <h3>assists</h3>
-                        @foreach ($assists as $assist)
+                        @forelse ($assists as $player)
                             <div>
-                                {{$assist['name']}} - {{$assist['team']}} - {{$assist['assists']}}
+                                <a href="{{ route('player', $player['player']) }}">{{$player['player']->name}}</a> - 
+                                {{$player['team']}} - 
+                                {{$player['assists']}}
                             </div>
-                        @endforeach
+                        @empty
+                            <p>No assists recorded.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>
