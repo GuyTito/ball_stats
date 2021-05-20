@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Create Football Team') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('team') }}">
+                    <form method="POST" action="{{ route('team.store') }}">
                         @csrf
 
                         <div class="form-group row">

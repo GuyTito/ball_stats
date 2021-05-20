@@ -24,7 +24,7 @@ class Team extends Model
     {
         return $this->hasMany(Player::class);
     }
-
+    
     public function home_matches()
     {
         return $this->hasMany(MatchEvent::class, 'home_team_id');

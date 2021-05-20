@@ -40,7 +40,7 @@
                                 <strong>{{$team['pts']}}</strong>
                             </div>
                         @empty
-                            <p>No match event recorded.</p> 
+                            <p>No team created.</p> 
                         @endforelse
                     </div>
 
@@ -48,9 +48,11 @@
                         <h3>matches</h3>
                         @forelse  ($matches as $match)
                             <div class="mb-2">
-                                <div>{{ Carbon\Carbon::parse($match->date_played)->toFormattedDateString() }}</div>
-                                {{$match->home_team->name}} {{$match->home_team_score}} - 
-                                {{$match->away_team_score}} {{$match->away_team->name}}
+                                <a href="{{ route('match', $match) }}">
+                                    <div>{{ Carbon\Carbon::parse($match->date_played)->toFormattedDateString() }}</div>
+                                    {{$match->home_team->name}} {{$match->home_team_score}} - 
+                                    {{$match->away_team_score}} {{$match->away_team->name}}
+                                </a>
                             </div>
                         @empty
                            <p>No match event recorded.</p> 

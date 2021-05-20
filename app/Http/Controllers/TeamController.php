@@ -13,7 +13,7 @@ class TeamController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth'])->only(['store', 'edit', 'destroy']);
     }
 
     /**
@@ -24,6 +24,35 @@ class TeamController extends Controller
     public function index()
     {
         return view('admin.team.create');
+    }
+
+    private function getLatestMatches($team)
+    {
+        $home_matches = $team->home_matches()->get();
+        $away_matches =$team->away_matches()->get();
+        $matches = $home_matches->merge($away_matches);
+        $matches = $matches->sort(function($a, $b) {
+            if($a->date_played === $b->date_played) {
+              if($a->created_at === $b->created_at) return 0;
+              return $a->created_at < $b->created_at ? -1 : 1;
+            } 
+            return $a->date_played < $b->date_played ? -1 : 1;
+        });
+
+        return $matches;
+    }
+
+    public function team(Team $team)
+    {
+        $players = $team->players()->get();
+
+        $matches = $this->getLatestMatches($team);
+
+        return view('admin.team.profile', [
+            'team' => $team,
+            'players' => $players,
+            'matches' => $matches->reverse(),
+        ]);
     }
 
     private function validateTeam()
@@ -37,17 +66,12 @@ class TeamController extends Controller
 
     public function store()
     {
-
-        // dd([$request->name, $request->coach, $request->location, $request->user()->id]);
-
         request()->user()->teams()->create($this->validateTeam());
-
         return redirect()->route('admin');
     }
 
     public function getTeams(){
-        $data = Team::select('name')->get();;
-   
+        $data = Team::select('name')->get();
         return response()->json($data);
     }
 }

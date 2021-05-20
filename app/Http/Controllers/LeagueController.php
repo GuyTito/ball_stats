@@ -75,7 +75,7 @@ class LeagueController extends Controller
         $seasons  = $user->seasons()->latest()->get();
         $current_season = $user->seasons()->find($season_id);
         
-        $matches = $user->match_events()->latest('date_played')->where('season_id', $season_id)->get();
+        $matches = $user->match_events()->latest()->where('season_id', $season_id)->get();
         $goals = $current_season->goals()->select('player_id')->distinct()->get();
         $assists =  $current_season->assists()->select('player_id')->distinct()->get();
         
@@ -93,7 +93,7 @@ class LeagueController extends Controller
             'matches' => $matches,
             'goals' => $goals->sortByDesc('goals'),
             'assists' => $assists->sortByDesc('assists'),
-            'standings' => $standings,
+            'standings' => $standings->sortByDesc('pts'),
         ]);
     }
     

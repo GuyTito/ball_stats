@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Player;
 use App\Models\Season;
 use App\Models\Team;
 use Carbon\Carbon;

@@ -40,7 +40,8 @@ Route::post('/admin/player', [PlayerController::class, 'store'])->name('player')
 
 Route::get('/admin/team/create', [TeamController::class, 'index'])->name('team.create');
 Route::get('/admin/team/getteams', [TeamController::class, 'getTeams'])->name('team.getTeams');
-Route::post('/admin/team', [TeamController::class, 'store'])->name('team');
+Route::post('/admin/team', [TeamController::class, 'store'])->name('team.store');
+Route::get('/admin/team/{team:name}', [TeamController::class, 'team'])->name('team');
 
 Route::get('/admin/season/create', [SeasonController::class, 'index'])->name('season.create');
 Route::post('/admin/season', [SeasonController::class, 'store'])->name('season');
