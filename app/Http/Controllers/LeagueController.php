@@ -18,16 +18,16 @@ class LeagueController extends Controller
         return view('home', ['leagues' => $leagues]);
     }
     
-    private function sumGoalsAssists($collection, $model, $season)
+    private function sumGoalsAssists($models, $column, $season)
     {
         $processed = collect([]);
-        foreach ($collection as $item){
-            $relation = $model == 'goals' ? $item->player->goals : $item->player->assists;
+        foreach ($models as $model){
+            $relation = $column == 'goals' ? $model->player->goals : $model->player->assists;
             
-            $processed-> push(collect([
-                'player' => $item->player,
-                'team' => $item->player->team->name,
-                $model => $relation->whereIn('season_id', $season->id)->sum($model),
+            $processed->push(collect([
+                'player' => $model->player,
+                'team' => $model->player->team->name,
+                $column => $relation->whereIn('season_id', $season->id)->sum($column),
             ]));
         }
         return $processed;

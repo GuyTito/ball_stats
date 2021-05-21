@@ -32,11 +32,13 @@ Auth::routes();
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 Route::get('/admin/match/create', [MatchEventController::class, 'index'])->name('match.create');
-Route::post('/admin/match', [MatchEventController::class, 'store'])->name('match');
+Route::post('/admin/match', [MatchEventController::class, 'store'])->name('match.store');
+Route::get('/admin/match/{match}', [MatchEventController::class, 'match_event'])->name('match');
 
 Route::get('/admin/player/create', [PlayerController::class, 'index'])->name('player.create');
 Route::get('/admin/team/getplayers', [PlayerController::class, 'getPlayers'])->name('player.getPlayers');
-Route::post('/admin/player', [PlayerController::class, 'store'])->name('player');
+Route::post('/admin/player', [PlayerController::class, 'store'])->name('player.store');
+Route::get('/admin/player/{player:name}', [PlayerController::class, 'player'])->name('player');
 
 Route::get('/admin/team/create', [TeamController::class, 'index'])->name('team.create');
 Route::get('/admin/team/getteams', [TeamController::class, 'getTeams'])->name('team.getTeams');

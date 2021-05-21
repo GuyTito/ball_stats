@@ -26,7 +26,7 @@ class TeamController extends Controller
         return view('admin.team.create');
     }
 
-    private function getLatestMatches($team)
+    private function getMatches($team)
     {
         $home_matches = $team->home_matches()->get();
         $away_matches =$team->away_matches()->get();
@@ -46,7 +46,7 @@ class TeamController extends Controller
     {
         $players = $team->players()->get();
 
-        $matches = $this->getLatestMatches($team);
+        $matches = $this->getMatches($team);
 
         return view('admin.team.profile', [
             'team' => $team,

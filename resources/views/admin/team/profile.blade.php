@@ -29,7 +29,7 @@
                         <h3>Team Info</h3>
                         <span>Manager: {{$team->coach}}</span> <br>
                         <span>Location: {{$team->location}}</span> <br>
-                        <span>League: {{$team->user->name}}</span>
+                        League: <a href="{{ route('league', $team->user) }}">{{$team->user->name}}</a>
                     </div>
 
                     <div>

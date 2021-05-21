@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Goals;
+use App\Models\MatchEvent;
 use App\Models\Season;
 use App\Models\Team;
 use Carbon\Carbon;
@@ -15,7 +17,7 @@ class MatchEventController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth'])->only(['store', 'edit', 'destroy']);
     }
 
     /**
@@ -28,6 +30,17 @@ class MatchEventController extends Controller
         return view('admin.match.create', [
             'seasons' => Season::latest()->where('user_id', auth()->id())->get(),
             'teams' => Team::where('user_id', auth()->id())->get()
+        ]);
+    }
+
+    public function match_event(MatchEvent $match)
+    {
+        $goals = Goals::where('match_id', $match->id)->get();
+        // using the goal models, we get the players
+        
+        dd($goals);
+        return view('admin.match.profile',[
+            'match' => $match,
         ]);
     }
     
