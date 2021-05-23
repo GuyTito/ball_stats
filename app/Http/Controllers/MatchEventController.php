@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assists;
 use App\Models\Goals;
 use App\Models\MatchEvent;
 use App\Models\Season;
@@ -33,14 +34,31 @@ class MatchEventController extends Controller
         ]);
     }
 
+    private function matchStats($models, $column)
+    {
+        $match_stats = collect([]);
+        foreach ($models as $model ) {
+            $stat = $column == 'goals' ? $model->goals : $model->assists;
+            $match_stats->push(collect([
+                $model->player->name => [$model->player, $stat]
+            ]));
+        }
+
+        return $match_stats;
+    }
+
     public function match_event(MatchEvent $match)
     {
         $goals = Goals::where('match_id', $match->id)->get();
-        // using the goal models, we get the players
-        
-        dd($goals);
+        $assists = Assists::where('match_id', $match->id)->get();
+
+        $match_goals = $this->matchStats($goals, 'goals');
+        $match_assists = $this->matchStats($assists, 'assists');
+
         return view('admin.match.profile',[
             'match' => $match,
+            'match_goals' => $match_goals,
+            'match_assists' => $match_assists,
         ]);
     }
     
