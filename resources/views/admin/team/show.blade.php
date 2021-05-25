@@ -6,36 +6,25 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    {{ $team->name }}
-
-                    {{-- <div>Seasons:
-                        <span>
-                            {{ Carbon\Carbon::parse($current_season->start_date)->toFormattedDateString() }} -
-                            {{ Carbon\Carbon::parse($current_season->end_date)->toFormattedDateString() }}
-                        </span>
-                        @foreach ($seasons as $season)
-                            <div> 
-                                <a href="{{ route('league', ['user' => $league, 'season' => $season]) }}">
-                                    {{ Carbon\Carbon::parse($season->start_date)->toFormattedDateString() }} -
-                                    {{ Carbon\Carbon::parse($season->end_date)->toFormattedDateString() }}
-                                </a>
-                            </div>
-                        @endforeach
-                    </div> --}}
+                    <div class="d-flex justify-content-between">
+                        <h3>{{ $team->name }}</h3>
+                        @auth
+                            <a href="{{route('team.edit', $team)}}">Edit</a>
+                        @endauth
+                    </div>
                 </div>
 
                 <div class="card-body">
                     <div>
-                        <h3>Team Info</h3>
                         <span>Manager: {{$team->coach}}</span> <br>
                         <span>Location: {{$team->location}}</span> <br>
                         League: <a href="{{ route('league', $team->user) }}">{{$team->user->name}}</a>
                     </div>
 
-                    <div>
-                        <h3>Players</h3>
+                    <div class="mt-3">
+                        <h4>Players</h4>
                         @forelse ($players as $player)
-                            <a href="{{ route('player', $player) }}">{{$player->name}}</a> - 
+                            <a href="{{ route('player.show', $player) }}">{{$player->name}}</a> - 
                             <span>{{$player->position}}</span>
                             <br>
                         @empty
@@ -43,11 +32,11 @@
                         @endforelse
                     </div>
 
-                    <div>
-                        <h3>matches</h3>
+                    <div class="mt-3">
+                        <h4>matches</h4>
                         @forelse  ($matches as $match)
                             <div class="mb-2">
-                                <a href="{{ route('match', $match) }}">
+                                <a href="{{ route('match.show', $match) }}">
                                     <div>{{ Carbon\Carbon::parse($match->date_played)->toFormattedDateString() }}</div>
                                     {{$match->home_team->name}} {{$match->home_team_score}} - 
                                     {{$match->away_team_score}} {{$match->away_team->name}}

@@ -26,39 +26,11 @@ class MatchEventController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function create()
     {
         return view('admin.match.create', [
             'seasons' => Season::latest()->where('user_id', auth()->id())->get(),
             'teams' => Team::where('user_id', auth()->id())->get()
-        ]);
-    }
-
-    private function matchStats($models, $column)
-    {
-        $match_stats = collect([]);
-        foreach ($models as $model ) {
-            $stat = $column == 'goals' ? $model->goals : $model->assists;
-            $match_stats->push(collect([
-                $model->player->name => [$model->player, $stat]
-            ]));
-        }
-
-        return $match_stats;
-    }
-
-    public function match_event(MatchEvent $match)
-    {
-        $goals = Goals::where('match_id', $match->id)->get();
-        $assists = Assists::where('match_id', $match->id)->get();
-
-        $match_goals = $this->matchStats($goals, 'goals');
-        $match_assists = $this->matchStats($assists, 'assists');
-
-        return view('admin.match.profile',[
-            'match' => $match,
-            'match_goals' => $match_goals,
-            'match_assists' => $match_assists,
         ]);
     }
     
@@ -171,5 +143,43 @@ class MatchEventController extends Controller
         $this->storeGoalsAssists($countAssistors, request()->user()->assists(), request()->assistors, request()->assists, 'assists', $justInserted);
 
         return redirect()->route('admin');
+    }
+
+    private function matchStats($models, $column)
+    {
+        $match_stats = collect([]);
+        foreach ($models as $model ) {
+            $stat = $column == 'goals' ? $model->goals : $model->assists;
+            $match_stats->push(collect([
+                $model->player->name => [$model->player, $stat]
+            ]));
+        }
+
+        return $match_stats;
+    }
+
+    public function show(MatchEvent $match)
+    {
+        $goals = Goals::where('match_id', $match->id)->get();
+        $assists = Assists::where('match_id', $match->id)->get();
+
+        $match_goals = $this->matchStats($goals, 'goals');
+        $match_assists = $this->matchStats($assists, 'assists');
+
+        return view('admin.match.show',[
+            'match' => $match,
+            'match_goals' => $match_goals,
+            'match_assists' => $match_assists,
+        ]);
+    }
+
+    public function edit(MatchEvent $match)
+    {
+        return view('admin.match.edit', ['match' => $match]);
+    }
+
+    public function update(MatchEvent $match)
+    {
+        dd($match);
     }
 }

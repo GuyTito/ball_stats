@@ -6,7 +6,12 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    Match Id: {{ $match->id }}
+                    <div class="d-flex justify-content-between">
+                        <span>Match Id: {{ $match->id }}</span>
+                        @auth
+                            <a href="{{route('match.edit', $match)}}">Edit</a>
+                        @endauth
+                    </div>
                 </div>
 
                 <div class="card-body">
@@ -24,9 +29,9 @@
 
                     <div>
                         <h4>
-                            <a href="{{ route('team', $match->home_team) }}">{{$match->home_team->name}}</a>
+                            <a href="{{ route('team.show', $match->home_team) }}">{{$match->home_team->name}}</a>
                              {{$match->home_team_score}} - {{$match->away_team_score}}
-                             <a href="{{ route('team', $match->away_team) }}">{{$match->away_team->name}}</a>
+                             <a href="{{ route('team.show', $match->away_team) }}">{{$match->away_team->name}}</a>
                         </h4>
                         
                         @if (($match->home_team_score + $match->away_team_score) > 0)
@@ -36,7 +41,7 @@
                                     @forelse ($match_goals as $match_goal)
                                         @foreach ($match_goal as $name => $player)
                                             <li>
-                                                <a class="text-secondary" href="{{ route('player', $player[0]) }}">{{$name}}</a>
+                                                <a class="text-secondary" href="{{ route('player.show', $player[0]) }}">{{$name}}</a>
                                                 {{ ' (' . $player[1] . ')' }}
                                             </li>
                                         @endforeach
@@ -52,7 +57,7 @@
                                     @forelse ($match_assists as $match_assist)
                                         @foreach ($match_assist as $name => $player)
                                             <li>
-                                                <a class="text-secondary" href="{{ route('player', $player[0]) }}">{{$name}}</a> 
+                                                <a class="text-secondary" href="{{ route('player.show', $player[0]) }}">{{$name}}</a> 
                                                 {{ ' (' . $player[1] . ')' }}
                                             </li>
                                         @endforeach

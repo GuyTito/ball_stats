@@ -21,9 +21,29 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(){
+        $data = Team::select('name')->get();
+        return response()->json($data);
+    }
+
+    public function create()
     {
         return view('admin.team.create');
+    }
+
+    private function validateTeam()
+    {
+        return request()->validate([
+            'name' => 'required|max:255|unique:teams,name,NULL,id,user_id,'.auth()->id(),
+            'coach' => 'required|max:255|unique:teams,coach,NULL,id,user_id,'.auth()->id(),
+            'location' => 'required|max:255'
+        ]);
+    }
+
+    public function store()
+    {
+        request()->user()->teams()->create($this->validateTeam());
+        return redirect()->route('admin');
     }
 
     private function getMatches($team)
@@ -42,36 +62,26 @@ class TeamController extends Controller
         return $matches;
     }
 
-    public function team(Team $team)
+    public function show(Team $team)
     {
         $players = $team->players()->get();
 
         $matches = $this->getMatches($team);
 
-        return view('admin.team.profile', [
+        return view('admin.team.show', [
             'team' => $team,
             'players' => $players,
             'matches' => $matches->reverse(),
         ]);
     }
 
-    private function validateTeam()
+    public function edit(Team $team)
     {
-        return request()->validate([
-            'name' => 'required|max:255|unique:teams,name,NULL,id,user_id,'.auth()->id(),
-            'coach' => 'required|max:255|unique:teams,coach,NULL,id,user_id,'.auth()->id(),
-            'location' => 'required|max:255'
-        ]);
+        return view('admin.team.edit', ['team' => $team]);
     }
 
-    public function store()
+    public function update(Team $team)
     {
-        request()->user()->teams()->create($this->validateTeam());
-        return redirect()->route('admin');
-    }
-
-    public function getTeams(){
-        $data = Team::select('name')->get();
-        return response()->json($data);
+        dd($team);
     }
 }

@@ -15,7 +15,7 @@
                     @endif
 
                     <div class="mb-2">
-                        <a href="{{ route('match_event.create') }}">
+                        <a href="{{ route('match.create') }}">
                             {{ __('Save match event') }}
                         </a>
                     </div>

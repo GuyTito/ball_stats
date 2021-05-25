@@ -6,19 +6,24 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    {{ $player->name }}
+                    <div class="d-flex justify-content-between">
+                        <h3>{{ $player->name }}</h3>
+                        @auth
+                            <a href="{{route('player.edit', $player)}}">Edit</a>
+                        @endauth
+                    </div>
                 </div>
 
                 <div class="card-body">
                     <div>
-                        <h3>Player Info</h3>
                         League: <a href="{{ route('league', $player->user) }}">{{$player->user->name}}</a><br>
-                        Team: <a href="{{ route('team', $player->team) }}">{{$player->team->name}}</a> <br>
+                        Team: <a href="{{ route('team.show', $player->team) }}">{{$player->team->name}}</a> <br>
                         <span>Position: {{$player->position}}</span> <br>
+                        <span>Date of Birth: {{  Carbon\Carbon::parse($player->birth_date)->toFormattedDateString() }}</span>
                     </div>
 
-                    <div>
-                        <h3>Goals</h3>
+                    <div class="mt-3">
+                        <h4>Goals</h4>
                         Season - Goals
                         @forelse ($goals as $player)
                             @foreach ($player as $date => $goals)
@@ -29,8 +34,8 @@
                         @endforelse
                     </div>
 
-                    <div>
-                        <h3>Assists</h3>
+                    <div class="mt-3">
+                        <h4>Assists</h4>
                         Season - Assists
                         @forelse ($assists as $player)
                             @foreach ($player as $date => $assists)

@@ -8,7 +8,7 @@
                     <div class="card-header text-center">{{ __('Save match event') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('match') }}">
+                        <form method="POST" action="{{ route('match.store') }}">
                             @csrf
 
                             {{-- @if($errors->any())
@@ -280,11 +280,11 @@
 				return false;
 			}
 
-			var path = "{{ route('player.getPlayers') }}";
+			var path = "{{ route('players') }}";
 			getTypeaheadData('.get_players', path)
 		});
 
-		var path = "{{ route('team.getTeams') }}";
+		var path = "{{ route('teams') }}";
 		getTypeaheadData('.get_teams', path)
 
 		

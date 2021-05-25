@@ -25,6 +25,13 @@ class PlayerController extends Controller
      */
     public function index()
     {
+        $players = request()->user()->players()->select('name')->get();
+        return response()->json($players);
+    }
+
+    
+    public function create()
+    {
         return view('admin.player.create', [
             'teams' => Team::where('user_id', auth()->id())->get()
         ]);
@@ -44,14 +51,14 @@ class PlayerController extends Controller
         return $seasonalStats;
     }
 
-    public function player(Player $player)
+    public function show(Player $player)
     {
         $seasons = ($player->user->seasons)->reverse();
 
         $seasonalGoals = $this->seasonalStats($seasons, $player, 'goals');
         $seasonalAssists = $this->seasonalStats($seasons, $player, 'assists');
 
-        return view('admin.player.profile', [
+        return view('admin.player.show', [
             'player' => $player,
             'goals' => $seasonalGoals,
             'assists' => $seasonalAssists,
@@ -79,9 +86,16 @@ class PlayerController extends Controller
         return redirect()->route('admin');
     }
 
-    public function getPlayers()
+    public function edit(Player $player)
     {
-        $players = request()->user()->players()->select('name')->get();
-        return response()->json($players);
+        return view('admin.player.edit', [
+            'player' => $player,
+            'teams' => Team::where('user_id', auth()->id())->get()
+        ]);
+    }
+
+    public function update(Player $player)
+    {
+        dd($player);
     }
 }

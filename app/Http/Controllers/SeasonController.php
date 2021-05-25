@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Season;
 
 class SeasonController extends Controller
 {
@@ -20,7 +21,7 @@ class SeasonController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function create()
     {
         return view('admin.season.create');
     }
@@ -35,10 +36,25 @@ class SeasonController extends Controller
     
     public function store()
     {
-        //dd([request()->start_date, request()->end_date, request()->user()->id]);
-
         request()->user()->seasons()->create($this->validateSeason());
 
         return redirect()->route('admin');
+    }
+
+    public function show(Season $season)
+    {
+        return view('admin.season.show', [
+            'season' => $season,
+        ]);
+    }
+
+    public function edit(Season $season)
+    {
+        return view('admin.season.edit', ['season' => $season]);
+    }
+
+    public function update(Season $season)
+    {
+        dd($season);
     }
 }
