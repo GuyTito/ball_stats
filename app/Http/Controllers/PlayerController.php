@@ -15,7 +15,7 @@ class PlayerController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth'])->only(['store', 'edit', 'destroy']);
+        $this->middleware(['auth'])->only(['create','store','edit','update','destroy']);
     }
 
     /**
@@ -88,6 +88,7 @@ class PlayerController extends Controller
 
     public function edit(Player $player)
     {
+        $this->authorize('update', $player);
         return view('admin.player.edit', [
             'player' => $player,
             'teams' => Team::where('user_id', auth()->id())->get()
@@ -96,6 +97,7 @@ class PlayerController extends Controller
 
     public function update(Player $player)
     {
+        $this->authorize('update', $player);
         dd($player);
     }
 }

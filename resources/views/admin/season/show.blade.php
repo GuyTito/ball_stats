@@ -8,9 +8,10 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <span>Season Id: {{ $season->id }}</span>
-                        @auth
+                        
+                        @can('update', $season)
                             <a href="{{route('season.edit', $season)}}">Edit</a>
-                        @endauth
+                        @endcan
                     </div>
                 </div>
 

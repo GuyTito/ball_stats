@@ -8,9 +8,10 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <h3>{{ $player->name }}</h3>
-                        @auth
+                        
+                        @can('update', $player)
                             <a href="{{route('player.edit', $player)}}">Edit</a>
-                        @endauth
+                        @endcan
                     </div>
                 </div>
 

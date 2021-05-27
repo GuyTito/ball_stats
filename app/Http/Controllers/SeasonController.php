@@ -13,7 +13,7 @@ class SeasonController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth'])->only(['create','store','edit','update','destroy']);
     }
 
     /**
@@ -50,11 +50,13 @@ class SeasonController extends Controller
 
     public function edit(Season $season)
     {
+        $this->authorize('update', $season);
         return view('admin.season.edit', ['season' => $season]);
     }
 
     public function update(Season $season)
     {
+        $this->authorize('update', $season);
         dd($season);
     }
 }

@@ -18,7 +18,7 @@ class MatchEventController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth'])->only(['store', 'edit', 'destroy']);
+        $this->middleware(['auth'])->only(['create','store','edit','update','destroy']);
     }
 
     /**
@@ -175,11 +175,13 @@ class MatchEventController extends Controller
 
     public function edit(MatchEvent $match)
     {
+        $this->authorize('update', $match);
         return view('admin.match.edit', ['match' => $match]);
     }
 
     public function update(MatchEvent $match)
     {
+        $this->authorize('update', $match);
         dd($match);
     }
 }

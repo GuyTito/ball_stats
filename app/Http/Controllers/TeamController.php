@@ -13,7 +13,7 @@ class TeamController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth'])->only(['store', 'edit', 'destroy']);
+        $this->middleware(['auth'])->only(['create','store','edit','update','destroy']);
     }
 
     /**
@@ -77,11 +77,13 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
+        $this->authorize('update', $team);
         return view('admin.team.edit', ['team' => $team]);
     }
 
     public function update(Team $team)
     {
+        $this->authorize('update', $team);
         dd($team);
     }
 }
