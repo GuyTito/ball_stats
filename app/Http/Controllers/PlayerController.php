@@ -98,6 +98,7 @@ class PlayerController extends Controller
     public function update(Player $player)
     {
         $this->authorize('update', $player);
-        dd($player);
+        $player->update($this->validatePlayer());
+        return redirect()->route('player.show', $player);
     }
 }

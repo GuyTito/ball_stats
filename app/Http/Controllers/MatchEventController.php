@@ -91,19 +91,6 @@ class MatchEventController extends Controller
         }
     }
 
-    private function storeGoalsAssists($counter, $model, $request_1, $request_2, $field, $last_id)
-    {
-        for ($i = 0; $i < $counter; $i++)
-        {
-            $model->create([
-                'season_id' => request('season_id'),
-                'player_id' => request()->user()->players()->where('name', $request_1[$i])->first()->id,
-                $field => $request_2[$i],
-                'match_id' => $last_id->id
-            ]);
-        }
-    }
-
     private function addWinLossTeam($results)
     {
         if (request()->home_team_score > request()->away_team_score) {
@@ -124,6 +111,23 @@ class MatchEventController extends Controller
         return $results;
     }
 
+    private function saveGoalsAssists($action, $counter, $model, $request_1, $request_2, $field, $last_id)
+    {
+        if ($action == 'update') {
+            $model->where('match_id', $last_id->id)->delete();
+        }
+
+        for ($i = 0; $i < $counter; $i++)
+        {
+            $model->create([
+                'season_id' => request('season_id'),
+                'player_id' => request()->user()->players()->where('name', $request_1[$i])->first()->id,
+                $field => $request_2[$i],
+                'match_id' => $last_id->id
+            ]);            
+        }
+    }
+    
     public function store()
     {
         $cmdbsd = $this->checkMatchDateBetweenSeasonDates();
@@ -137,10 +141,10 @@ class MatchEventController extends Controller
         $justInserted = request()->user()->match_events()->create($match_results);
 
         $countScorers = collect(request()->scorers)->count();
-        $this->storeGoalsAssists($countScorers, request()->user()->goals(), request()->scorers, request()->goals, 'goals', $justInserted);
+        $this->saveGoalsAssists('store',$countScorers, request()->user()->goals(), request()->scorers, request()->goals, 'goals', $justInserted);
 
         $countAssistors = collect(request()->assistors)->count();
-        $this->storeGoalsAssists($countAssistors, request()->user()->assists(), request()->assistors, request()->assists, 'assists', $justInserted);
+        $this->saveGoalsAssists('store',$countAssistors, request()->user()->assists(), request()->assistors, request()->assists, 'assists', $justInserted);
 
         return redirect()->route('admin');
     }
@@ -176,12 +180,42 @@ class MatchEventController extends Controller
     public function edit(MatchEvent $match)
     {
         $this->authorize('update', $match);
-        return view('admin.match.edit', ['match' => $match]);
+
+        $goals = Goals::where('match_id', $match->id)->get();
+        $assists = Assists::where('match_id', $match->id)->get();
+        
+        $match_goals = $this->matchStats($goals, 'goals');
+        $match_assists = $this->matchStats($assists, 'assists');
+
+        return view('admin.match.edit', [
+            'match' => $match,
+            'match_goals' => $match_goals,
+            'match_assists' => $match_assists,
+            'seasons' => Season::latest()->where('user_id', auth()->id())->get(),
+            'teams' => Team::where('user_id', auth()->id())->get()
+        ]);
     }
 
     public function update(MatchEvent $match)
     {
         $this->authorize('update', $match);
-        dd($match);
+
+        $cmdbsd = $this->checkMatchDateBetweenSeasonDates();
+        if ($cmdbsd) return $cmdbsd;
+
+        $vsa = $this->validateScoreAssistSum();
+        if ($vsa) return $vsa;
+
+        $match_results = $this->addWinLossTeam($this->validateMatch());
+
+        $match->update($match_results);
+
+        $countScorers = collect(request()->scorers)->count();
+        $this->saveGoalsAssists('update',$countScorers, request()->user()->goals(), request()->scorers, request()->goals, 'goals', $match);
+
+        $countAssistors = collect(request()->assistors)->count();
+        $this->saveGoalsAssists('update',$countAssistors, request()->user()->assists(), request()->assistors, request()->assists, 'assists', $match);
+
+        return redirect()->route('match.show', $match);
     }
 }

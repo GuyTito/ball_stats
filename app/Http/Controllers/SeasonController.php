@@ -37,7 +37,6 @@ class SeasonController extends Controller
     public function store()
     {
         request()->user()->seasons()->create($this->validateSeason());
-
         return redirect()->route('admin');
     }
 
@@ -57,6 +56,6 @@ class SeasonController extends Controller
     public function update(Season $season)
     {
         $this->authorize('update', $season);
-        dd($season);
-    }
+        $season->update($this->validateSeason());
+        return redirect()->route('season.show', $season);    }
 }

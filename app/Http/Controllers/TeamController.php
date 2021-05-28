@@ -84,6 +84,7 @@ class TeamController extends Controller
     public function update(Team $team)
     {
         $this->authorize('update', $team);
-        dd($team);
+        $team->update($this->validateTeam());
+        return redirect()->route('team.show', $team);
     }
 }

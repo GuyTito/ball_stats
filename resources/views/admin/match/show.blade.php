@@ -8,9 +8,10 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <span>Match Id: {{ $match->id }}</span>
-                        @auth
+                        
+                        @can('update', $match)
                             <a href="{{route('match.edit', $match)}}">Edit</a>
-                        @endauth
+                        @endcan
                     </div>
                 </div>
 

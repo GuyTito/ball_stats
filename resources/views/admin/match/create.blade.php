@@ -265,7 +265,7 @@
 				return false;
 			}
 
-			var path = "{{ route('player.getPlayers') }}";
+			var path = "{{ route('players') }}";
 			getTypeaheadData('.get_players', path)
 		});
 
