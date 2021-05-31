@@ -25,10 +25,10 @@ class MatchEventPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\MatchEvent  $matchEvent
+     * @param  \App\Models\MatchEvent  $match
      * @return mixed
      */
-    public function view(User $user, MatchEvent $matchEvent)
+    public function view(User $user, MatchEvent $match)
     {
         //
     }
@@ -48,7 +48,7 @@ class MatchEventPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\MatchEvent  $matchEvent
+     * @param  \App\Models\MatchEvent  $match
      * @return mixed
      */
     public function update(User $user, MatchEvent $match)
@@ -60,22 +60,22 @@ class MatchEventPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\MatchEvent  $matchEvent
+     * @param  \App\Models\MatchEvent  $match
      * @return mixed
      */
-    public function delete(User $user, MatchEvent $matchEvent)
+    public function delete(User $user, MatchEvent $match)
     {
-        //
+        return $match->user->is($user);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\MatchEvent  $matchEvent
+     * @param  \App\Models\MatchEvent  $match
      * @return mixed
      */
-    public function restore(User $user, MatchEvent $matchEvent)
+    public function restore(User $user, MatchEvent $match)
     {
         //
     }
@@ -84,10 +84,10 @@ class MatchEventPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\MatchEvent  $matchEvent
+     * @param  \App\Models\MatchEvent  $match
      * @return mixed
      */
-    public function forceDelete(User $user, MatchEvent $matchEvent)
+    public function forceDelete(User $user, MatchEvent $match)
     {
         //
     }

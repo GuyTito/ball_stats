@@ -65,7 +65,7 @@ class TeamPolicy
      */
     public function delete(User $user, Team $team)
     {
-        //
+        return $team->user->is($user);
     }
 
     /**

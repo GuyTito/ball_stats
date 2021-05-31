@@ -57,5 +57,13 @@ class SeasonController extends Controller
     {
         $this->authorize('update', $season);
         $season->update($this->validateSeason());
-        return redirect()->route('season.show', $season);    }
+        return redirect()->route('season.show', $season);
+    }
+
+    public function destroy(Season $season)
+    {
+        $this->authorize('delete', $season);
+        $season->destroy($season->id);
+        return redirect()->route('league', $season->user);
+    }
 }

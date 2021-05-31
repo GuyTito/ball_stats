@@ -9,9 +9,21 @@
                     <div class="d-flex justify-content-between">
                         <h3>{{ $team->name }}</h3>
                         
-                        @can('update', $team)
-                            <a href="{{route('team.edit', $team)}}">Edit</a>
-                        @endcan
+                        <div>
+                            @can('update', $team)
+                                <button class="btn btn-primary">
+                                    <a class="text-white" href="{{route('team.edit', $team)}}">Edit</a>
+                                </button>
+                            @endcan
+
+                            @can('delete', $team)
+                                <form action="{{ route('team.destroy', $team)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            @endcan
+                        </div>
                     </div>
                 </div>
 

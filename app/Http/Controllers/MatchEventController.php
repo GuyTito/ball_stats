@@ -138,15 +138,15 @@ class MatchEventController extends Controller
 
         $match_results = $this->addWinLossTeam($this->validateMatch());
 
-        $justInserted = request()->user()->match_events()->create($match_results);
+        $match_stored = request()->user()->match_events()->create($match_results);
 
         $countScorers = collect(request()->scorers)->count();
-        $this->saveGoalsAssists('store',$countScorers, request()->user()->goals(), request()->scorers, request()->goals, 'goals', $justInserted);
+        $this->saveGoalsAssists('store',$countScorers, request()->user()->goals(), request()->scorers, request()->goals, 'goals', $match_stored);
 
         $countAssistors = collect(request()->assistors)->count();
-        $this->saveGoalsAssists('store',$countAssistors, request()->user()->assists(), request()->assistors, request()->assists, 'assists', $justInserted);
+        $this->saveGoalsAssists('store',$countAssistors, request()->user()->assists(), request()->assistors, request()->assists, 'assists', $match_stored);
 
-        return redirect()->route('admin');
+        return redirect()->route('match.show', $match_stored);
     }
 
     private function matchStats($models, $column)
@@ -217,5 +217,12 @@ class MatchEventController extends Controller
         $this->saveGoalsAssists('update',$countAssistors, request()->user()->assists(), request()->assistors, request()->assists, 'assists', $match);
 
         return redirect()->route('match.show', $match);
+    }
+
+    public function destroy(MatchEvent $match)
+    {
+        $this->authorize('delete', $match);
+        $match->destroy($match->id);
+        return redirect()->route('league', $match->user);
     }
 }

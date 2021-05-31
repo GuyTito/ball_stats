@@ -82,8 +82,8 @@ class PlayerController extends Controller
 
     public function store()
     {
-        request()->user()->players()->create($this->validatePlayer());
-        return redirect()->route('admin');
+        $player_stored = request()->user()->players()->create($this->validatePlayer());
+        return redirect()->route('player.show', $player_stored);
     }
 
     public function edit(Player $player)
@@ -100,5 +100,12 @@ class PlayerController extends Controller
         $this->authorize('update', $player);
         $player->update($this->validatePlayer());
         return redirect()->route('player.show', $player);
+    }
+
+    public function destroy(Player $player)
+    {
+        $this->authorize('delete', $player);
+        $player->destroy($player->id);
+        return redirect()->route('league', $player->user);
     }
 }

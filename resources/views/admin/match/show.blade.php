@@ -8,10 +8,22 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <span>Match Id: {{ $match->id }}</span>
-                        
-                        @can('update', $match)
-                            <a href="{{route('match.edit', $match)}}">Edit</a>
-                        @endcan
+
+                        <div>
+                            @can('update', $match)
+                                <button class="btn btn-primary">
+                                    <a class="text-white" href="{{route('match.edit', $match)}}">Edit</a>
+                                </button>
+                            @endcan
+
+                            @can('delete', $match)
+                                <form action="{{ route('match.destroy', $match)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            @endcan
+                        </div>
                     </div>
                 </div>
 

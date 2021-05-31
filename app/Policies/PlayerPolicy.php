@@ -65,7 +65,7 @@ class PlayerPolicy
      */
     public function delete(User $user, Player $player)
     {
-        //
+        return $player->user->is($user);
     }
 
     /**

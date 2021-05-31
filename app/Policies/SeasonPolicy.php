@@ -65,7 +65,7 @@ class SeasonPolicy
      */
     public function delete(User $user, Season $season)
     {
-        //
+        return $season->user->is($user);
     }
 
     /**

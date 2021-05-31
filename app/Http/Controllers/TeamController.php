@@ -42,8 +42,8 @@ class TeamController extends Controller
 
     public function store()
     {
-        request()->user()->teams()->create($this->validateTeam());
-        return redirect()->route('admin');
+        $team_stored = request()->user()->teams()->create($this->validateTeam());
+        return redirect()->route('team.show', $team_stored);
     }
 
     private function getMatches($team)
@@ -86,5 +86,12 @@ class TeamController extends Controller
         $this->authorize('update', $team);
         $team->update($this->validateTeam());
         return redirect()->route('team.show', $team);
+    }
+
+    public function destroy(Team $team)
+    {
+        $this->authorize('delete', $team);
+        $team->destroy($team->id);
+        return redirect()->route('league', $team->user);
     }
 }
