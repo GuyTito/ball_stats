@@ -17,8 +17,6 @@
                 </div>
 
                 <div class="card-body">
-                    
-
                     <div>Seasons:
                         <a class="text-secondary" href="{{ route('season.show', $current_season) }}">
                             {{ Carbon\Carbon::parse($current_season->start_date)->toFormattedDateString() }} -
@@ -33,26 +31,46 @@
                             </div>
                         @endforeach
                     </div>
-                
 
                 
                     <div class="mt-3">
                         <h3>standings</h3>
-                        <strong>team</strong> - <strong>MP</strong> - <strong>W</strong> - <strong>D</strong> - <strong>L</strong> - <strong>GS/GC</strong> - <strong>Pts</strong>
-                        
-                        @forelse ($standings as $team)
-                            <div>
-                                <a href="{{ route('team.show', $team['team']) }}">{{$team['team']->name}}</a> - 
-                                {{$team['mp']}} - 
-                                {{$team['w']}} - 
-                                {{$team['d']}} - 
-                                {{$team['l']}} - 
-                                {{$team['gs']}}/{{$team['gc']}} - 
-                                <strong>{{$team['pts']}}</strong>
-                            </div>
-                        @empty
-                            <p>No team created.</p> 
-                        @endforelse
+                        <div class="table-responsive-sm">
+                            <table class="table table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Club</th>
+                                        <th>MP</th>
+                                        <th>W</th>
+                                        <th>D</th>
+                                        <th>L</th>
+                                        <th>Pts</th>
+                                        <th>GS</th>
+                                        <th>GC</th>
+                                        <th>GD</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($standings as $team)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td><a href="{{ route('team.show', $team['team']) }}">{{$team['team']->name}}</a></td> 
+                                            <td>{{$team['mp']}}</td> 
+                                            <td>{{$team['w']}}</td> 
+                                            <td>{{$team['d']}}</td> 
+                                            <td>{{$team['l']}}</td> 
+                                            <td><strong>{{$team['pts']}}</strong></td>
+                                            <td>{{$team['gs']}}</td> 
+                                            <td>{{$team['gc']}}</td> 
+                                            <td>{{$team['gc'] - $team['gc']}}</td> 
+                                        </tr>
+                                    @empty
+                                        <p>No team created.</p> 
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="mt-3">
@@ -72,28 +90,58 @@
 
                     <div class="mt-3">
                         <h3>goals</h3>
-                        @forelse ($goals as $player)
-                            <div>
-                                <a href="{{ route('player.show', $player['player']) }}">{{$player['player']->name}}</a> - 
-                                {{$player['team']}} - 
-                                {{$player['goals']}}
-                            </div>
-                        @empty
-                            <p>No goals recorded.</p>
-                        @endforelse
+                        <div class="table-responsive-sm">
+                            <table class="table table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Player</th>
+                                        <th>Club</th>
+                                        <th>Goals</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($goals as $player)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td><a href="{{ route('player.show', $player['player']) }}">{{$player['player']->name}}</a></td> 
+                                            <td>{{$player['team']}}</td>
+                                            <td>{{$player['goals']}}</td>
+                                        </tr>
+                                    @empty
+                                        <p>No goals recorded.</p>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="mt-3">
                         <h3>assists</h3>
-                        @forelse ($assists as $player)
-                            <div>
-                                <a href="{{ route('player.show', $player['player']) }}">{{$player['player']->name}}</a> - 
-                                {{$player['team']}} - 
-                                {{$player['assists']}}
-                            </div>
-                        @empty
-                            <p>No assists recorded.</p>
-                        @endforelse
+                        <div class="table-responsive-sm">
+                            <table class="table table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Player</th>
+                                        <th>Club</th>
+                                        <th>Assists</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($assists as $player)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td><a href="{{ route('player.show', $player['player']) }}">{{$player['player']->name}}</a></td> 
+                                            <td>{{$player['team']}}</td>
+                                            <td>{{$player['assists']}}</td>
+                                        </tr>
+                                    @empty
+                                        <p>No assists recorded.</p>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
