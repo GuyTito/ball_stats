@@ -17,14 +17,18 @@
                 </div>
 
                 <div class="card-body">
-                    <div>Seasons:
+                    <div class="dropdown">Season: 
                         <a class="text-secondary" href="{{ route('season.show', $current_season) }}">
                             {{ Carbon\Carbon::parse($current_season->start_date)->toFormattedDateString() }} -
                             {{ Carbon\Carbon::parse($current_season->end_date)->toFormattedDateString() }}
                         </a>
+
+                        <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+
                         @foreach ($seasons as $season)
-                            <div> 
-                                <a href="{{ route('league', ['user' => $league, 'season' => $season]) }}">
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ route('league', ['user' => $league, 'season' => $season]) }}">
                                     {{ Carbon\Carbon::parse($season->start_date)->toFormattedDateString() }} -
                                     {{ Carbon\Carbon::parse($season->end_date)->toFormattedDateString() }}
                                 </a>
