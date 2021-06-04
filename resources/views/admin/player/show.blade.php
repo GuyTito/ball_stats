@@ -34,29 +34,57 @@
                         <span>Position: {{$player->position}}</span> <br>
                         <span>Date of Birth: {{  Carbon\Carbon::parse($player->birth_date)->toFormattedDateString() }}</span>
                     </div>
-
+                    
                     <div class="mt-3">
                         <h4>Goals</h4>
-                        Season - Goals
-                        @forelse ($goals as $player)
-                            @foreach ($player as $date => $goals)
-                                <div>{{ $date . ' - ' . $goals }}</div>
-                            @endforeach
-                        @empty
-                            <span>No goals.</span>
-                        @endforelse
+                        <div class="table-responsive-sm">
+                            <table class="table table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Season</th>
+                                        <th>Goals</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($goals as $player)
+                                        @foreach ($player as $date => $goals)
+                                            <tr>
+                                                <td>{{$date}}</td>
+                                                <td>{{$goals}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @empty
+                                        <p>No goals recorded.</p>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="mt-3">
                         <h4>Assists</h4>
-                        Season - Assists
-                        @forelse ($assists as $player)
-                            @foreach ($player as $date => $assists)
-                                <div>{{ $date . ' - ' . $assists }}</div>
-                            @endforeach
-                        @empty
-                            <span>No assists.</span>
-                        @endforelse
+                        <div class="table-responsive-sm">
+                            <table class="table table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Season</th>
+                                        <th>Assists</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($assists as $player)
+                                        @foreach ($player as $date => $assists)
+                                            <tr>
+                                                <td>{{$date}}</td>
+                                                <td>{{$assists}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @empty
+                                        <p>No assists recorded.</p>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

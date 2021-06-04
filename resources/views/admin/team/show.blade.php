@@ -35,14 +35,26 @@
                     </div>
 
                     <div class="mt-3">
-                        <h4>Players</h4>
-                        @forelse ($players as $player)
-                            <a href="{{ route('player.show', $player) }}">{{$player->name}}</a> - 
-                            <span>{{$player->position}}</span>
-                            <br>
-                        @empty
-                            <span>No players in this team.</span>
-                        @endforelse
+                        <div class="table-responsive-sm">
+                            <table class="table table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Player</th>
+                                        <th>Position</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($players as $player)
+                                        <tr>
+                                            <td><a href="{{ route('player.show', $player) }}">{{$player->name}}</a></td>
+                                            <td>{{$player->position}}</td>
+                                        </tr>
+                                    @empty
+                                        <p>No players in this team.</p>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="mt-3">
