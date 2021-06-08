@@ -198,8 +198,9 @@
         </div>
     </div>
 
-    <script type="text/javascript">
+    <script src="/js/typeahead.js"></script>
 
+    <script type="text/javascript">
 		function getTypeaheadData(element, path) {
 			$(element).typeahead({
 				source: function(query, process) {
@@ -286,9 +287,6 @@
 
 		var path = "{{ route('teams') }}";
 		getTypeaheadData('.get_teams', path)
-
-		
-
     </script>
 
 @endsection
