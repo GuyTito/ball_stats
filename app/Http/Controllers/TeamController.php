@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use Illuminate\Support\Str;
+
 
 class TeamController extends Controller
 {
@@ -36,13 +38,29 @@ class TeamController extends Controller
         return request()->validate([
             'name' => 'required|max:255|unique:teams,name,NULL,id,user_id,'.auth()->id(),
             'coach' => 'required|max:255|unique:teams,coach,NULL,id,user_id,'.auth()->id(),
+            'logo' => 'image|max:1000',
             'location' => 'required|max:255'
         ]);
     }
 
+    private function checkLogo()
+    {
+        if (request('logo')) {
+            $logo_path = request('logo')->store('team_logos');
+            return array_replace($this->validateTeam(), ["logo" => $logo_path]);
+        } else {
+            return $this->validateTeam();
+        }
+    }
+
     public function store()
     {
-        $team_stored = request()->user()->teams()->create($this->validateTeam());
+        $team_data = $this->checkLogo();
+
+        $slug = Str::slug(request('name'));
+        $team_data = array_merge($team_data, ["slug" => $slug]);
+
+        $team_stored = request()->user()->teams()->create($team_data);
         return redirect()->route('team.show', $team_stored);
     }
 
@@ -81,10 +99,17 @@ class TeamController extends Controller
         return view('admin.team.edit', ['team' => $team]);
     }
 
+
     public function update(Team $team)
     {
         $this->authorize('update', $team);
-        $team->update($this->validateTeam());
+        
+        $team_data = $this->checkLogo();
+
+        $slug = Str::slug(request('name'));
+        $team_data = array_merge($team_data, ["slug" => $slug]);
+
+        $team->update($team_data);
         return redirect()->route('team.show', $team);
     }
 

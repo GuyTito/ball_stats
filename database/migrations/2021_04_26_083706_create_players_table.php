@@ -17,6 +17,7 @@ class CreatePlayersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
+            $table->string('slug');
             $table->string('position')->nullable();
             $table->date('birth_date')->nullable();
             $table->unsignedBigInteger('team_id');
@@ -28,6 +29,7 @@ class CreatePlayersTable extends Migration
 
             
             $table->unique( ['name', 'user_id']);
+            $table->unique( ['slug', 'user_id']);
         });
     }
 

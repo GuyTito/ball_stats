@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Create Football Team') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('team.store') }}">
+                    <form method="POST" action="{{ route('team.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
@@ -29,9 +29,27 @@
                             <label for="coach" class="col-md-4 col-form-label text-md-right">{{ __('Team Manager') }}</label>
 
                             <div class="col-md-6">
-                                <input id="coach" type="text" class="form-control @error('coach') is-invalid @enderror" name="coach" value="{{ old('coach') }}" required autofocus>
+                                <input id="coach" type="text" class="form-control @error('coach') is-invalid @enderror" name="coach" value="{{ old('coach') }}" required>
 
                                 @error('coach')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="logo" class="col-md-4 col-form-label text-md-right">{{ __('Team Logo') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="logo" type="file" accept=".jpg, .png, .gif, .svg" class="form-control-file mb-2  @error('logo') is-invalid @enderror" name="logo" value="" onchange="preview()">
+
+                                <div id="logo_div" style='height: 100px; width: 100px;' hidden>
+                                    <img id="logo_img" src="" style='max-height: 100%; max-width: 100%;'/>
+                                </div>
+
+                                @error('logo')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -43,7 +61,7 @@
                             <label for="location" class="col-md-4 col-form-label text-md-right">{{ __('Location') }}</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ old('location') }}" required autofocus>
+                                <input id="location" type="text" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ old('location') }}" required>
 
                                 @error('location')
                                     <span class="invalid-feedback" role="alert">
@@ -65,5 +83,11 @@
             </div>
         </div>
     </div>
+    <script>
+        function preview() {
+            logo_img.src = URL.createObjectURL(event.target.files[0]);
+            document.getElementById('logo_div').hidden = false;
+        }
+    </script>
 </div>
 @endsection

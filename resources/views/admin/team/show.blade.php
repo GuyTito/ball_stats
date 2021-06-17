@@ -8,6 +8,12 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <h3>{{ $team->name }}</h3>
+
+                        @if ($team->logo)
+                            <div style='height: 100px; width: 100px;'>
+                                <img src="{{asset('/storage/' . $team->logo)}}" style='max-height: 100%; max-width: 100%;'/>
+                            </div>
+                        @endif
                         
                         <div>
                             @can('update', $team)

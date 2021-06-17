@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 // })->name('home');
 Route::get('/', [LeagueController::class, 'index'])->name('home');
 
-Route::get('/league/{user:name}', [LeagueController::class, 'show'])->name('league');
+Route::get('/league/{user:slug}', [LeagueController::class, 'show'])->name('league');
 
 Auth::routes();
 
@@ -41,16 +41,16 @@ Route::delete('/admin/match/{match}', [MatchEventController::class, 'destroy'])-
 Route::get('/admin/team/getplayers', [PlayerController::class, 'index'])->name('players');
 Route::get('/admin/player/create', [PlayerController::class, 'create'])->name('player.create');
 Route::post('/admin/player', [PlayerController::class, 'store'])->name('player.store');
-Route::get('/admin/player/{player:name}', [PlayerController::class, 'show'])->name('player.show');
-Route::get('/admin/player/{player:name}/edit', [PlayerController::class, 'edit'])->name('player.edit');
+Route::get('/admin/player/{player:slug}', [PlayerController::class, 'show'])->name('player.show');
+Route::get('/admin/player/{player:slug}/edit', [PlayerController::class, 'edit'])->name('player.edit');
 Route::put('/admin/player/{player:name}', [PlayerController::class, 'update'])->name('player.update');
 Route::delete('/admin/player/{player}', [PlayerController::class, 'destroy'])->name('player.destroy');
 
 Route::get('/admin/team/getteams', [TeamController::class, 'index'])->name('teams');
 Route::get('/admin/team/create', [TeamController::class, 'create'])->name('team.create');
 Route::post('/admin/team', [TeamController::class, 'store'])->name('team.store');
-Route::get('/admin/team/{team:name}', [TeamController::class, 'show'])->name('team.show');
-Route::get('/admin/team/{team:name}/edit', [TeamController::class, 'edit'])->name('team.edit');
+Route::get('/admin/team/{team:slug}', [TeamController::class, 'show'])->name('team.show');
+Route::get('/admin/team/{team:slug}/edit', [TeamController::class, 'edit'])->name('team.edit');
 Route::put('/admin/team/{team:name}', [TeamController::class, 'update'])->name('team.update');
 Route::delete('/admin/team/{team:name}', [TeamController::class, 'destroy'])->name('team.destroy');
 

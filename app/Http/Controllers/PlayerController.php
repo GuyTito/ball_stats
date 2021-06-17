@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Player;
 use App\Models\Team;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class PlayerController extends Controller
 {
@@ -82,7 +83,10 @@ class PlayerController extends Controller
 
     public function store()
     {
-        $player_stored = request()->user()->players()->create($this->validatePlayer());
+        $slug = Str::slug(request('name'));
+        $player_data = array_merge($this->validatePlayer(), ["slug" => $slug]);
+
+        $player_stored = request()->user()->players()->create($player_data);
         return redirect()->route('player.show', $player_stored);
     }
 

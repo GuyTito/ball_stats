@@ -17,11 +17,14 @@ class CreateTeamsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
+            $table->string('slug');
+            $table->string('logo')->nullable();
             $table->string('location');
             $table->string('coach');
             $table->timestamps();
 
             $table->unique( ['name', 'user_id']); 
+            $table->unique( ['slug', 'user_id']); 
             $table->unique( ['coach', 'user_id']); 
         });
     }
