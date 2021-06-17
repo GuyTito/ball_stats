@@ -10,7 +10,7 @@
                         <h3>{{ $team->name }}</h3>
 
                         @if ($team->logo)
-                            <div style='height: 100px; width: 100px;'>
+                            <div style='height: 50px; width: 50px;'>
                                 <img src="{{asset('/storage/' . $team->logo)}}" style='max-height: 100%; max-width: 100%;'/>
                             </div>
                         @endif
