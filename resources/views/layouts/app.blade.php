@@ -44,11 +44,11 @@
           <ul class="navbar-nav ml-auto">
             <!-- Dark Mode Switch -->
             <li class="nav-link">
-            <div class="nav-item custom-control custom-switch mr-2">
-              <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-              <label class="custom-control-label p-0" for="darkSwitch">Theme</label>
-            </div>
-          </li>
+              <div class="nav-item custom-control custom-switch mr-2">
+                <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+                <label class="custom-control-label p-0" for="darkSwitch">Theme</label>
+              </div>
+            </li>
 
             <!-- Authentication Links -->
             @guest
