@@ -11,7 +11,7 @@
 
               @if ($team->logo)
                 <div style='height: 50px; width: 50px;'>
-                  <img src="{{ asset('/storage/' . $team->logo) }}" style='max-height: 100%; max-width: 100%;' />
+                  <img src="{{ asset('/storage/' . $team->logo) }}" style='max-height: 100%; max-width: 100%;' alt="logo"/>
                 </div>
               @endif
 
