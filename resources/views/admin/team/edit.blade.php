@@ -52,7 +52,7 @@
                   >
 
                   <div id="logo_div" style='height: 100px; width: 100px;' hidden>
-                    <img id="logo_img" src="" style='max-height: 100%; max-width: 100%;' />
+                    <img id="logo_img" src="" style='max-height: 100%; max-width: 100%;' alt="logo" />
                   </div>
 
                   @if ($team->logo)
