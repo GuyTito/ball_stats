@@ -49,6 +49,9 @@ class TeamController extends Controller
     if (request('logo')) {
       $logo_path = request('logo')->store('team_logos');
       return array_replace($this->validateTeam($team), ["logo" => $logo_path]);
+    } elseif (request('remove_logo')) {
+      $logo_path = null;
+      return array_replace($this->validateTeam($team), ["logo" => $logo_path]);
     } else {
       return $this->validateTeam($team);
     }

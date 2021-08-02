@@ -47,12 +47,27 @@
 
                 <div class="col-md-6">
                   <input id="logo" type="file" accept=".jpg, .png, .gif, .svg"
-                    class="form-control-file mb-2  @error('logo') is-invalid @enderror" name="logo" value=""
-                    onchange="previewLogo()">
+                    class="form-control-file mb-2 @error('logo') is-invalid @enderror" name="logo" value=""
+                    onchange="previewLogo()"
+                  >
 
                   <div id="logo_div" style='height: 100px; width: 100px;' hidden>
                     <img id="logo_img" src="" style='max-height: 100%; max-width: 100%;' />
                   </div>
+
+                  @if ($team->logo)
+                    <script>
+                      document.getElementById('logo_div').hidden = false;
+                      document.getElementById('logo_img').src = @json(asset('/storage/' . $team->logo));
+                    </script>
+
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="remove" name="remove_logo" id="remove_logo" onclick="removeLogo()">
+                      <label class="form-check-label" for="remove_logo">
+                        Remove Logo
+                      </label>
+                    </div>
+                  @endif
 
                   @error('logo')
                     <span class="invalid-feedback" role="alert">
@@ -93,6 +108,15 @@
       function previewLogo() {
         logo_img.src = URL.createObjectURL(event.target.files[0]);
         document.getElementById('logo_div').hidden = false;
+      }
+
+      function removeLogo() {
+        var checkBox = document.getElementById("remove_logo");
+        if (checkBox.checked == true){
+          document.getElementById('logo_div').hidden = true;
+        } else {
+          document.getElementById('logo_div').hidden = false;
+        }
       }
     </script>
   </div>
