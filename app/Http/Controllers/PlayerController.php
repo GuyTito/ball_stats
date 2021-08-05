@@ -6,6 +6,7 @@ use App\Models\Player;
 use App\Models\Team;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class PlayerController extends Controller
 {
@@ -66,11 +67,11 @@ class PlayerController extends Controller
     ]);
   }
 
-  private function validatePlayer()
+  private function validatePlayer($player = null)
   {
     return request()->validate(
       [
-        'name' => 'required|max:255|unique:players,name,NULL,id,user_id,' . auth()->id(),
+        'name' => ['required', 'max:255', Rule::unique('players')->ignore($player)],
         'team_id' => 'required|exists:teams,id',
         'position' => 'max:255',
         'birth_date' => 'date|before:yesterday',
@@ -102,7 +103,7 @@ class PlayerController extends Controller
   public function update(Player $player)
   {
     $this->authorize('update', $player);
-    $player->update($this->validatePlayer());
+    $player->update($this->validatePlayer($player));
     return redirect()->route('player.show', $player);
   }
 
