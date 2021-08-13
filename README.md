@@ -1,1 +1,1 @@
-A simple app to manage a local football league. [Start using](https://ball-stats.herokuapp.com)
+A simple app to manage a local football league. [Demo](https://ball-stats.herokuapp.com)
