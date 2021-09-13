@@ -58,11 +58,11 @@ class MatchEventController extends Controller
       [
         'away_team_id.different' => 'The away team and home team must be different.',
         'scorers.*.distinct' => 'Goal scorer must appear once',
-        'scorers.*.string' => 'Player Name does not exist in Database',
-        'scorers.*.exists' => 'Player Name does not exist in Database',
-        'assistors.*.distinct' => 'Assist provider must appear once',
-        'assistors.*.string' => 'Player Name does not exist in Database',
-        'assistors.*.exists' => 'Player Name does not exist in Database',
+        'scorers.*.string' => 'Player(s) not in this league.',
+        'scorers.*.exists' => 'Player(s) not in this league.',
+        'assistors.*.distinct' => 'Assist provider must appear once.',
+        'assistors.*.string' => 'Player(s) not in this league.',
+        'assistors.*.exists' => 'Player(s) not in this league.',
         'home_team_id.exists' => 'Select a team',
         'away_team_id.exists' => 'Select a team',
       ]
