@@ -73,8 +73,9 @@ class MatchEventController extends Controller
   {
     $season = Season::find(request()->season_id);
     $season_start = Carbon::createFromDate($season['start_date']);
+    $season_end = Carbon::createFromDate($season['end_date']);
     $match_date = Carbon::createFromDate(request()->date_played);
-    if ($match_date->lt($season_start)) {
+    if ($match_date->lt($season_start) or $match_date->gt($season_end)) {
       return back()->withErrors(['date_played' => 'Match date must be between the start and end of the season'])->withInput();
     }
   }
