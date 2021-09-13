@@ -288,7 +288,7 @@
       scorerCounter--;
     }
 
-    var assistorCounter = $("div[id|='scorerDiv']").length ? $("div[id|='scorerDiv']").first().data("id") : 0 // numbers the assistor fields
+    var assistorCounter = $("div[id|='assistorDiv']").length ? $("div[id|='assistorDiv']").first().data("id") : 0 // numbers the assistor fields
     function negAssist() {
       assistorCounter--;
     }
@@ -307,7 +307,7 @@
         console.log({scorerCounter});
         $(`#addScorerDiv`).after(showScorerDiv);
       } else {
-        alert("Number of goal scorers should be less or equal to team score");
+        alert("Number of goal scored should be less or equal to total goals in this match");
         return false;
       }
 
@@ -324,7 +324,7 @@
         });
         $(`#addAssistorDiv`).after(showAssistorDiv);
       } else {
-        alert("Number of assist providers should be less or equal to team score");
+        alert("Number of assists provided should be less or equal to total goals in this match");
         return false;
       }
 
